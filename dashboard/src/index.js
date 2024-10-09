@@ -25,7 +25,7 @@ i18next
     },
     backend: {
       // Use your API endpoint to load the language translations
-      loadPath: 'http://localhost:1111/language/{{lng}}',
+      loadPath: 'https://najm-finance-and-donation.nodescript-it.com/language/{{lng}}',
       parse: (data) => {
         const parsedData = JSON.parse(data);
         // If the API returns 'language_data' nested under 'language_data', return that
