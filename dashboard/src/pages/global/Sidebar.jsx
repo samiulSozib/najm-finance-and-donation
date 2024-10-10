@@ -12,6 +12,8 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useSidebar } from "../../context/SidebarContext"; // Import the context
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft"; // Import collapse icon
+
 
 const Item = ({ title, to, icon, selected, setSelected, isRTL }) => {
   const theme = useTheme();
@@ -89,13 +91,15 @@ const Sidebar = () => {
               color: colors.grey[100],
             }}
           >
-            {!isCollapsed && !isMobile && (
+            {!isCollapsed &&  (
               <Box
                 display="flex"
                 justifyContent="space-between"
                 alignItems="center"
                 ml="15px"
+                
               >
+                
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />
                 </IconButton>
