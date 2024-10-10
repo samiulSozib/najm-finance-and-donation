@@ -126,7 +126,7 @@ const Event = () => {
         </IconButton>
           )}
         {permissions.includes('manage_events')&&(
-        <IconButton color="secondary" onClick={() => handleDelete(params.row.id)}>
+        <IconButton style={{ color: 'red' }} onClick={() => handleDelete(params.row.id)}>
           <DeleteIcon />
         </IconButton>
           )}

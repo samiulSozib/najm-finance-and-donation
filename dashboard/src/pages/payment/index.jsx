@@ -146,7 +146,7 @@ const Payments = () => {
         </IconButton>
         )}
         {permissions.includes('manage_payments')&&(
-        <IconButton color="secondary" onClick={() => handleDelete(params.row.id)}>
+        <IconButton style={{ color: 'red' }} onClick={() => handleDelete(params.row.id)}>
           <DeleteIcon />
         </IconButton>
       )}

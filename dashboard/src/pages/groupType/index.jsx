@@ -128,7 +128,7 @@ const GroupType = () => {
           </IconButton>
 
           {/* Delete Icon Button */}
-          <IconButton color="secondary" onClick={() => handleDelete(params.row.id)}>
+          <IconButton style={{ color: 'red' }} onClick={() => handleDelete(params.row.id)}>
             <DeleteIcon />
           </IconButton>
 

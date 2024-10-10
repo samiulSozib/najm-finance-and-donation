@@ -161,7 +161,7 @@ const Members = () => {
 
           )}
           {permissions.includes('manage_members') && (
-          <IconButton color="secondary" onClick={() => handleDelete(params.row.id)}>
+          <IconButton style={{ color: 'red' }} onClick={() => handleDelete(params.row.id)}>
             <DeleteIcon />
           </IconButton>
         )}

@@ -107,7 +107,7 @@ const ExpenseCategory = () => {
          )}
 
       {permissions.includes('manage_expense_category')&&(
-        <IconButton color="secondary" onClick={() => handleDelete(params.row.id)}>
+        <IconButton style={{ color: 'red' }} onClick={() => handleDelete(params.row.id)}>
           <DeleteIcon />
         </IconButton>
       )}
