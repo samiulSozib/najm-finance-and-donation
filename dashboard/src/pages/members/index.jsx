@@ -138,7 +138,11 @@ const Members = () => {
     { field: "occupation", headerName: t('MEMBER_OCCUPATION'), flex: 1 },
     { field: "monthly_contribution", headerName: t('MEMBER_MONTHLY_CONTRIBUTION'), flex: 1 },
     { field: "address", headerName: t('MEMBER_ADDRESS'), flex: 1 },
-    { field: "joining_date", headerName: t('MEMBER_JOINING_DATE'), flex: 1 },
+    { field: "joining_date", headerName: t('MEMBER_JOINING_DATE'), flex: 1,
+      renderCell: (params) => {
+      const date = new Date(params.value);
+      return date.toLocaleDateString();
+    }, },
     {
       field: "Group.name", headerName: t('MEMBER_GROUP_NAME'), flex: 1,
       renderCell: (params) => params.row.Group?.name || "N/A"

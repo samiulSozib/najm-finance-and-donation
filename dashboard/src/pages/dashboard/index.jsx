@@ -34,7 +34,7 @@ const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const currentMonth = getCurrentMonthName();
-  const { t } = useTranslation();
+  const { t,i18n } = useTranslation();
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedRowId, setSelectedRowId] = useState(null);
   const [selectedMember, setSelectedMember] = useState(null);
@@ -87,7 +87,7 @@ const Dashboard = () => {
   };
 
 
-
+  const isRtl = i18n.language === 'ar' || i18n.language==='fa';
 
   const columns = [
     { field: "id", headerName: t('ID'), flex: 0.5 },
@@ -95,7 +95,12 @@ const Dashboard = () => {
     { field: "occupation", headerName: t('MEMBER_OCCUPATION'), flex: 1 },
     { field: "monthly_contribution", headerName: t('MEMBER_MONTHLY_CONTRIBUTION'), flex: 1 },
     { field: "address", headerName: t('MEMBER_ADDRESS'), flex: 1 },
-    { field: "joining_date", headerName: t('MEMBER_JOINING_DATE'), flex: 1 },
+    { field: "joining_date", headerName: t('MEMBER_JOINING_DATE'), flex: 1,
+      renderCell: (params) => {
+        const date = new Date(params.value);
+        return date.toLocaleDateString();
+      },
+     },
     {
       field: "Group.name", headerName: t('MEMBER_GROUP_NAME'), flex: 1,
       renderCell: (params) => params.row.Group?.name || "N/A"
@@ -115,7 +120,7 @@ const Dashboard = () => {
   ];
 
   return (
-    <Box m="20px">
+    <Box m="20px" dir={isRtl ? 'rtl' : 'ltr'}>
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title={t('DASHBOARD')} subtitle={t('WELCOME_DASHBOARD')} />
@@ -284,6 +289,14 @@ const Dashboard = () => {
                 // }}
                 // pageSizeOptions={[10, 20, 50]}
                 // components={{ Toolbar: GridToolbar }}
+                sx={{
+                  "& .MuiDataGrid-columnHeaders": {
+                    textAlign: isRtl ? 'right' : 'left', // Ensure header text alignment is right or left
+                  },
+                  "& .MuiDataGrid-cell": {
+                    textAlign: isRtl ? 'right' : 'left', // Ensure cell content is also right or left aligned
+                  },
+                }}
               />
             </Box>
           </Box>

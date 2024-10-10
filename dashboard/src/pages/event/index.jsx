@@ -101,8 +101,18 @@ const Event = () => {
     { field: "id", headerName: t('ID'), flex: 0.5 },
     { field: "name", headerName: t('EVENT_NAME'), flex: 1 },
     { field: "description", headerName: t('EVENT_DESCRIPTION'), flex: 1 },
-    { field: "start_date", headerName: t('EVENT_START_DATE'), flex: 1 },
-    { field: "end_date", headerName: t('EVENT_END_DATE'), flex: 1 },
+    { field: "start_date", headerName: t('EVENT_START_DATE'), flex: 1,
+      renderCell: (params) => {
+        const date = new Date(params.value);
+        return date.toLocaleDateString();
+      },
+     },
+    { field: "end_date", headerName: t('EVENT_END_DATE'), flex: 1,
+      renderCell: (params) => {
+        const date = new Date(params.value);
+        return date.toLocaleDateString();
+      },
+     },
     {
       field: "actions",
       headerName: t('ACTIONS'),
