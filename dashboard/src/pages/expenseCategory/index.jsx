@@ -17,7 +17,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 const ExpenseCategory = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const {t}=useTranslation()
+  const {t,i18n}=useTranslation()
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedRowId, setSelectedRowId] = useState(null);
@@ -89,6 +89,7 @@ const ExpenseCategory = () => {
     handleDialogClose();
   };
 
+  const isRtl = i18n.language === 'ar' || i18n.language==='fa';
   const columns = [
     { field: "id", headerName: t('ID'), flex: 0.5 },
     { field: "name", headerName: t('EXPENSE_CATEGORY_NAME'), flex: 1 },
@@ -116,7 +117,7 @@ const ExpenseCategory = () => {
   ];
 
   return (
-    <Box m="20px">
+    <Box m="20px" dir={isRtl ? 'rtl' : 'ltr'}>
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title={t('EXPENSE_CATEGORY')} subtitle={t('CATEGORY_LIST')} />
         {permissions.includes('manage_expense_category')&&(
@@ -146,11 +147,20 @@ const ExpenseCategory = () => {
           "& .MuiDataGrid-virtualScroller": { backgroundColor: colors.primary[400] },
           "& .MuiDataGrid-footerContainer": { borderTop: "none", backgroundColor: colors.blueAccent[700] },
         }}
+        
       >
         <DataGrid
           rows={expenseCategories}
           columns={columns}
           components={{ Toolbar: GridToolbar }}
+          sx={{
+            "& .MuiDataGrid-columnHeaders": {
+              textAlign: isRtl ? 'right' : 'left', // Ensure header text alignment is right or left
+            },
+            "& .MuiDataGrid-cell": {
+              textAlign: isRtl ? 'right' : 'left', // Ensure cell content is also right or left aligned
+            },
+          }}
         />
       </Box>
 

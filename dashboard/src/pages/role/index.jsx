@@ -43,7 +43,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 const Role = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const {t}=useTranslation()
+  const {t,i18n}=useTranslation()
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedRowId, setSelectedRowId] = useState(null);
@@ -139,6 +139,8 @@ const Role = () => {
     handleDialogClose();
   };
 
+
+  const isRtl = i18n.language === 'ar' || i18n.language==='fa';
   const columns = [
     { field: "id", headerName: t('ID'), flex: 0.5 },
     { field: "name", headerName: t('ROLE_NAME'), flex: 1 },
@@ -166,7 +168,7 @@ const Role = () => {
   ];
 
   return (
-    <Box m="20px">
+    <Box m="20px" dir={isRtl ? 'rtl' : 'ltr'}>
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title={t('ROLES')} subtitle={t('ROLE_LIST')} />
         <Button
@@ -213,6 +215,14 @@ const Role = () => {
             rows={role_permissions}
             columns={columns}
             components={{ Toolbar: GridToolbar }}
+            sx={{
+              "& .MuiDataGrid-columnHeaders": {
+                textAlign: isRtl ? 'right' : 'left', // Ensure header text alignment is right or left
+              },
+              "& .MuiDataGrid-cell": {
+                textAlign: isRtl ? 'right' : 'left', // Ensure cell content is also right or left aligned
+              },
+            }}
           />
         )}
       </Box>

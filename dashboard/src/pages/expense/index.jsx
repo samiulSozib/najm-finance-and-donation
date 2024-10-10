@@ -20,7 +20,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 const Expense = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const {t}=useTranslation()
+  const {t,i18n}=useTranslation()
 
   const user = JSON.parse(localStorage.getItem('user'));
   const adminId = user ? user.id : null;
@@ -82,6 +82,8 @@ const Expense = () => {
     dispatch(expenseCategoryList());
     dispatch(eventList());
   }, [dispatch]);
+
+  const isRtl = i18n.language === 'ar' || i18n.language==='fa';
 
   const columns = [
     { field: "id", headerName: t('ID'), flex: 0.5 },
@@ -192,7 +194,7 @@ const Expense = () => {
   };
 
   return (
-    <Box m="20px">
+    <Box m="20px" dir={isRtl ? 'rtl' : 'ltr'}>
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title={t('EXPENSES')} subtitle={t('EXPENSE_LIST')} />
         <Box>
@@ -252,6 +254,14 @@ const Expense = () => {
           rows={expenses}
           columns={columns}
           components={{ Toolbar: GridToolbar }}
+          sx={{
+            "& .MuiDataGrid-columnHeaders": {
+              textAlign: isRtl ? 'right' : 'left', // Ensure header text alignment is right or left
+            },
+            "& .MuiDataGrid-cell": {
+              textAlign: isRtl ? 'right' : 'left', // Ensure cell content is also right or left aligned
+            },
+          }}
         />
       </Box>
 
