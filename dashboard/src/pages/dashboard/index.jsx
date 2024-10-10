@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, Menu, MenuItem, Typography, useTheme } from "@mui/material";
+import { Box, Button, CircularProgress, IconButton, Menu, MenuItem, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import GroupIcon from '@mui/icons-material/Group';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -42,7 +42,7 @@ const Dashboard = () => {
 
   const dispatch = useDispatch();
   const {groups}=useSelector((state)=>state.group)
-  const {members,unPaymentMembers}=useSelector((state)=>state.member)
+  const {loading,members,unPaymentMembers}=useSelector((state)=>state.member)
   const {events}=useSelector((state)=>state.event)
   const {payments}=useSelector((state)=>state.payment)
   const {expenses}=useSelector((state)=>state.expense)
@@ -275,6 +275,14 @@ const Dashboard = () => {
                 "& .MuiDataGrid-footerContainer": { borderTop: "none", backgroundColor: colors.blueAccent[700] },
               }}
             >
+              {loading ? (
+                  <Box display="flex" justifyContent="center" alignItems="center" height="100%">
+                    <CircularProgress size={60} />
+                    <Typography variant="h6" ml={2}>
+                      Loading roles...
+                    </Typography>
+                  </Box>
+                ) : (
               <DataGrid
                 rows={unPaymentMembers}
                 columns={columns}
@@ -298,6 +306,7 @@ const Dashboard = () => {
                   },
                 }}
               />
+                )}
             </Box>
           </Box>
         </Box>

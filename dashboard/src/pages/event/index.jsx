@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, IconButton, Menu, MenuItem, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField } from "@mui/material";
+import { Box, IconButton, Menu, MenuItem, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, CircularProgress, Typography } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useTheme } from "@mui/material";
@@ -18,7 +18,7 @@ const Event = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const dispatch = useDispatch();
-  const { events } = useSelector(state => state.event);
+  const { loading,events } = useSelector(state => state.event);
   const { permissions } = useSelector((state) => state.auth);
   const {t,i18n }=useTranslation()
 
@@ -170,6 +170,14 @@ const Event = () => {
           "& .MuiDataGrid-footerContainer": { backgroundColor: colors.blueAccent[700] },
         }}
       >
+        {loading ? (
+          <Box display="flex" justifyContent="center" alignItems="center" height="100%">
+            <CircularProgress size={60} />
+            <Typography variant="h6" ml={2}>
+              Loading roles...
+            </Typography>
+          </Box>
+        ) : (
         <DataGrid rows={events} columns={columns} components={{ Toolbar: GridToolbar }} sx={{
             "& .MuiDataGrid-columnHeaders": {
               textAlign: isRtl ? 'right' : 'left', // Ensure header text alignment is right or left
@@ -178,6 +186,7 @@ const Event = () => {
               textAlign: isRtl ? 'right' : 'left', // Ensure cell content is also right or left aligned
             },
           }}/>
+        )}
       </Box>
 
       <Dialog open={open} onClose={handleClose} dir={isRtl ? 'rtl' : 'ltr'}>

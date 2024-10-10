@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, IconButton, Menu, MenuItem, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, useMediaQuery } from "@mui/material";
+import { Box, IconButton, Menu, MenuItem, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, useMediaQuery, CircularProgress, Typography } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useDispatch, useSelector } from 'react-redux';
@@ -33,7 +33,7 @@ const GroupType = () => {
   const [formData, setFormData] = useState({ name: "" });
 
   const dispatch = useDispatch();
-  const { groupTypes } = useSelector((state) => state.groupType);
+  const { loading,groupTypes } = useSelector((state) => state.groupType);
   const { permissions } = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -177,6 +177,14 @@ const GroupType = () => {
           },
         }}
       >
+        {loading ? (
+          <Box display="flex" justifyContent="center" alignItems="center" height="100%">
+            <CircularProgress size={60} />
+            <Typography variant="h6" ml={2}>
+              Loading roles...
+            </Typography>
+          </Box>
+        ) : (
         <DataGrid
           rows={groupTypes}
           columns={columns}
@@ -190,6 +198,7 @@ const GroupType = () => {
             },
           }}
         />
+        )}
       </Box>
 
       {/* Add/Edit Group Type Dialog */}

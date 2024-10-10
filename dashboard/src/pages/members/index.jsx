@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import {
   Box, IconButton, Menu, MenuItem, Button, Dialog, DialogTitle,
-  DialogContent, DialogActions, TextField, Select, InputLabel, FormControl
+  DialogContent, DialogActions, TextField, Select, InputLabel, FormControl,
+  CircularProgress,
+  Typography
 } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -41,7 +43,7 @@ const Members = () => {
   const [groupFilter, setGroupFilter] = useState('');
 
   const dispatch = useDispatch();
-  const { members, totalItems } = useSelector((state) => state.member);
+  const { loading,members, totalItems } = useSelector((state) => state.member);
   const { groups } = useSelector((state) => state.group);
   const { permissions } = useSelector((state) => state.auth);
 
@@ -235,6 +237,14 @@ const Members = () => {
           "& .MuiDataGrid-footerContainer": { borderTop: "none", backgroundColor: colors.blueAccent[700] },
         }}
       >
+        {loading ? (
+          <Box display="flex" justifyContent="center" alignItems="center" height="100%">
+            <CircularProgress size={60} />
+            <Typography variant="h6" ml={2}>
+              Loading roles...
+            </Typography>
+          </Box>
+        ) : (
         <DataGrid
           rows={members}
           columns={columns}
@@ -258,6 +268,7 @@ const Members = () => {
             },
           }}
         />
+        )}
       </Box>
 
       {/* Member Form Dialog */}
