@@ -249,6 +249,14 @@ const Members = () => {
           }}
           pageSizeOptions={[10, 20, 50]}
           components={{ Toolbar: GridToolbar }}
+          sx={{
+            "& .MuiDataGrid-columnHeaders": {
+              textAlign: isRtl ? 'right' : 'left', // Ensure header text alignment is right or left
+            },
+            "& .MuiDataGrid-cell": {
+              textAlign: isRtl ? 'right' : 'left', // Ensure cell content is also right or left aligned
+            },
+          }}
         />
       </Box>
 
