@@ -12,6 +12,9 @@ import { useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import VisibilityIcon from "@mui/icons-material/Visibility"; 
 
 const GroupTypeDetails = () => {
   const theme = useTheme();
@@ -69,8 +72,8 @@ const GroupTypeDetails = () => {
     handleMenuClose();
   };
 
-  const handleDelete = () => {
-    dispatch(deleteGroup(selectedRowId));
+  const handleDelete = (id) => {
+    dispatch(deleteGroup(id));
     handleMenuClose();
   };
 
@@ -128,19 +131,19 @@ const GroupTypeDetails = () => {
       headerName: t('ACTIONS'),
       flex: 1,
       renderCell: (params) => (
-        <Box>
-          <IconButton onClick={(event) => handleMenuOpen(event, params.row.id)}>
-            <MoreVertIcon />
+        <Box display="flex" justifyContent="start" gap={1}>
+          {/* Edit Icon Button */}
+          <IconButton color="success" onClick={() => handleEdit(params.row.id)}>
+            <EditIcon />
           </IconButton>
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl) && selectedRowId === params.row.id}
-            onClose={handleMenuClose}
-          >
-            <MenuItem onClick={() => handleEdit(params.row.id)}>{t('EDIT')}</MenuItem>
-            <MenuItem onClick={handleDelete}>{t('DELETE')}</MenuItem>
-          </Menu>
-        </Box>
+
+          {/* Delete Icon Button */}
+          <IconButton color="secondary" onClick={() => handleDelete(params.row.id)}>
+            <DeleteIcon />
+          </IconButton>
+
+          
+      </Box>
       ),
     },
   ];

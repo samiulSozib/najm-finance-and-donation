@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import MemberDetails from "../members/memberDetails";
+import VisibilityIcon from "@mui/icons-material/Visibility"; 
 
 const getCurrentMonthName = () => {
   const date = new Date();
@@ -73,8 +74,8 @@ const Dashboard = () => {
     setSelectedRowId(null);
   };
 
-  const handleDetails = () => {
-    const member = members.find(member => member.id === selectedRowId);
+  const handleDetails = (id) => {
+    const member = members.find(member => member.id === id);
     setSelectedMember(member);
     setOpenDetailsDialog(true);
     handleMenuClose();
@@ -104,19 +105,11 @@ const Dashboard = () => {
       headerName: t('ACTIONS'),
       flex: 1,
       renderCell: (params) => (
-        <Box>
-          <IconButton onClick={(event) => handleMenuOpen(event, params.row.id)}>
-            <MoreVertIcon />
-            
-          </IconButton>
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl) && selectedRowId === params.row.id}
-            onClose={handleMenuClose}
-          >
-            <MenuItem onClick={handleDetails}>{t('DETAILS')}</MenuItem>
-          </Menu>
-        </Box>
+        <Box display="flex" justifyContent="start" gap={1}>
+        <IconButton color="default" onClick={() => handleDetails(params.row.id)}>
+          <VisibilityIcon />
+        </IconButton>
+      </Box>
       ),
     }
   ];

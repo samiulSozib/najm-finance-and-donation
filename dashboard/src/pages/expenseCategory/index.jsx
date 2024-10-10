@@ -10,6 +10,9 @@ import { expenseCategoryList, deleteExpenseCategory, insertExpenseCategory,editE
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useTranslation } from "react-i18next";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import VisibilityIcon from "@mui/icons-material/Visibility"; 
 
 const ExpenseCategory = () => {
   const theme = useTheme();
@@ -55,8 +58,8 @@ const ExpenseCategory = () => {
     handleMenuClose();
   };
 
-  const handleDelete = () => {
-    dispatch(deleteExpenseCategory(selectedRowId));
+  const handleDelete = (id) => {
+    dispatch(deleteExpenseCategory(id));
     handleMenuClose();
   };
 
@@ -95,24 +98,19 @@ const ExpenseCategory = () => {
       headerName: t('ACTIONS'),
       flex: 1,
       renderCell: (params) => (
-        <Box>
-          <IconButton onClick={(event) => handleMenuOpen(event, params.row.id)}>
-            <MoreVertIcon />
-          </IconButton>
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl) && selectedRowId === params.row.id}
-            onClose={handleMenuClose}
-          >
-            {permissions.includes('manage_expense_category')&&(
-              <Box>
-                <MenuItem onClick={() => handleEdit(params.row.id)}>{t('EDIT')}</MenuItem>
-                <MenuItem onClick={handleDelete}>{t('DELETE')}</MenuItem>
-              </Box>
-            )}
-            
-          </Menu>
-        </Box>
+        <Box display="flex" justifyContent="start" gap={1}>
+        {permissions.includes('manage_expense_category')&&(
+        <IconButton color="success" onClick={() => handleEdit(params.row.id)}>
+          <EditIcon />
+        </IconButton>
+         )}
+
+      {permissions.includes('manage_expense_category')&&(
+        <IconButton color="secondary" onClick={() => handleDelete(params.row.id)}>
+          <DeleteIcon />
+        </IconButton>
+      )}
+      </Box>
       ),
     },
   ];

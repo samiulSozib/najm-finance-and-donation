@@ -12,6 +12,9 @@ import {eventList} from '../../redux/actions/eventActions'
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useTranslation } from "react-i18next";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import VisibilityIcon from "@mui/icons-material/Visibility"; 
 
 const Payments = () => {
   const theme = useTheme();
@@ -76,8 +79,8 @@ const Payments = () => {
     handleMenuClose();
   };
 
-  const handleDelete = () => {
-    dispatch(deletePayment(selectedRowId));
+  const handleDelete = (id) => {
+    dispatch(deletePayment(id));
     handleMenuClose();
   };
 
@@ -134,23 +137,19 @@ const Payments = () => {
       headerName: t('ACTIONS'),
       flex: 1,
       renderCell: (params) => (
-        <Box>
-          <IconButton onClick={(event) => handleMenuOpen(event, params.row.id)}>
-            <MoreVertIcon />
-          </IconButton>
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl) && selectedRowId === params.row.id}
-            onClose={handleMenuClose}
-          >
-            {permissions.includes('manage_payments')&&(
-              <Box>
-                <MenuItem onClick={() => handleEdit(params.row.id)}>{t('EDIT')}</MenuItem>
-                <MenuItem onClick={handleDelete}>{t('DELETE')}</MenuItem>
-              </Box>
-            )}
-          </Menu>
-        </Box>
+        <Box display="flex" justifyContent="start" gap={1}>
+         {permissions.includes('manage_payments')&&(
+        <IconButton color="success" onClick={() => handleEdit(params.row.id)}>
+          <EditIcon />
+        </IconButton>
+        )}
+        {permissions.includes('manage_payments')&&(
+        <IconButton color="secondary" onClick={() => handleDelete(params.row.id)}>
+          <DeleteIcon />
+        </IconButton>
+      )}
+      </Box>
+
       ),
     },
   ];

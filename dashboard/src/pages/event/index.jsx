@@ -10,6 +10,9 @@ import { eventList,insertEvent,deleteEvent,editEvent } from '../../redux/actions
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
 import { useTranslation } from "react-i18next";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import VisibilityIcon from "@mui/icons-material/Visibility"; 
 
 const Event = () => {
   const theme = useTheme();
@@ -59,8 +62,8 @@ const Event = () => {
   };
   
 
-  const handleDelete = () => {
-    dispatch(deleteEvent(selectedRowId));
+  const handleDelete = (id) => {
+    dispatch(deleteEvent(id));
     handleMenuClose();
   };
 
@@ -105,24 +108,20 @@ const Event = () => {
       headerName: t('ACTIONS'),
       flex: 1,
       renderCell: (params) => (
-        <Box>
-          <IconButton onClick={(event) => handleMenuOpen(event, params.row.id)}>
-            <MoreVertIcon />
-          </IconButton>
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl) && selectedRowId === params.row.id}
-            onClose={handleMenuClose}
-          >
-            {permissions.includes('manage_events')&&(
-              <Box>
-                <MenuItem onClick={()=>handleEdit(params.row.id)}>{t('EDIT')}</MenuItem>
-                <MenuItem onClick={handleDelete}>{t('DELETE')}</MenuItem>
-              </Box>
-            )}
-            
-          </Menu>
-        </Box>
+       
+        <Box display="flex" justifyContent="start" gap={1}>
+         {permissions.includes('manage_events')&&(
+        <IconButton color="success" onClick={() => handleEdit(params.row.id)}>
+          <EditIcon />
+        </IconButton>
+          )}
+        {permissions.includes('manage_events')&&(
+        <IconButton color="secondary" onClick={() => handleDelete(params.row.id)}>
+          <DeleteIcon />
+        </IconButton>
+          )}
+      </Box>
+       
       ),
     },
   ];

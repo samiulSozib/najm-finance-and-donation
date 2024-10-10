@@ -15,6 +15,9 @@ import { useTranslation } from "react-i18next";
 import { tokens } from "../../theme";
 import 'react-toastify/dist/ReactToastify.css';
 import MemberDetails from "./memberDetails";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import VisibilityIcon from "@mui/icons-material/Visibility"; 
 
 const Members = () => {
   const theme = useTheme();
@@ -75,13 +78,13 @@ const Members = () => {
     handleMenuClose();
   };
 
-  const handleDelete = () => {
-    dispatch(deleteMember(selectedRowId));
+  const handleDelete = (id) => {
+    dispatch(deleteMember(id));
     handleMenuClose();
   };
 
-  const handleDetails = () => {
-    const member = members.find(member => member.id === selectedRowId);
+  const handleDetails = (id) => {
+    const member = members.find(member => member.id === id);
     setSelectedMember(member);
     setOpenDetailsDialog(true);
     handleMenuClose();
@@ -145,24 +148,24 @@ const Members = () => {
       headerName: t('ACTIONS'),
       flex: 1,
       renderCell: (params) => (
-        <Box>
-          <IconButton onClick={(event) => handleMenuOpen(event, params.row.id)}>
-            <MoreVertIcon />
+        <Box display="flex" justifyContent="start" gap={1}>
+       
+        {permissions.includes('manage_members') && (
+          <IconButton color="success" onClick={() => handleEdit(params.row.id)}>
+            <EditIcon />
           </IconButton>
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl) && selectedRowId === params.row.id}
-            onClose={handleMenuClose}
-          >
-            {permissions.includes('manage_members') && (
-              <Box>
-                <MenuItem onClick={() => handleEdit(params.row.id)}>{t('EDIT')}</MenuItem>
-                <MenuItem onClick={handleDelete}>{t('DELETE')}</MenuItem>
-              </Box>
-            )}
-            <MenuItem onClick={handleDetails}>{t('DETAILS')}</MenuItem>
-          </Menu>
-        </Box>
+
+          )}
+          {permissions.includes('manage_members') && (
+          <IconButton color="secondary" onClick={() => handleDelete(params.row.id)}>
+            <DeleteIcon />
+          </IconButton>
+        )}
+       
+        <IconButton color="default" onClick={() => handleDetails(params.row.id)}>
+          <VisibilityIcon />
+        </IconButton>
+      </Box>
       ),
     }
   ];

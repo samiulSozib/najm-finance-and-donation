@@ -10,6 +10,10 @@ import { useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import VisibilityIcon from "@mui/icons-material/Visibility"; 
+
 
 const GroupType = () => {
   const theme = useTheme();
@@ -61,13 +65,13 @@ const GroupType = () => {
     handleMenuClose();
   };
 
-  const handleDelete = () => {
-    dispatch(deleteGroupType(selectedRowId));
+  const handleDelete = (id) => {
+    dispatch(deleteGroupType(id));
     handleMenuClose();
   };
 
-  const handleDetails = () => {
-    navigate(`/group-types/details/${selectedRowId}`);
+  const handleDetails = (id) => {
+    navigate(`/group-types/details/${id}`);
     handleMenuClose();
   };
 
@@ -111,25 +115,28 @@ const GroupType = () => {
       headerName: t('GROUP_TYPE_NAME'), 
       flex: 1,
     },
+    
     {
       field: "actions",
       headerName: t('ACTIONS'),
       flex: 1,
       renderCell: (params) => (
-        <Box>
-          <IconButton onClick={(event) => handleMenuOpen(event, params.row.id)}>
-            <MoreVertIcon />
+        <Box display="flex" justifyContent="start" gap={1}>
+          {/* Edit Icon Button */}
+          <IconButton color="success" onClick={() => handleEdit(params.row.id)}>
+            <EditIcon />
           </IconButton>
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl) && selectedRowId === params.row.id}
-            onClose={handleMenuClose}
-          >
-            <MenuItem onClick={() => handleEdit(params.row.id)}>{t('EDIT')}</MenuItem>
-            <MenuItem onClick={handleDelete}>{t('DELETE')}</MenuItem>
-            <MenuItem onClick={handleDetails}>{t('DETAILS')}</MenuItem>
-          </Menu>
-        </Box>
+
+          {/* Delete Icon Button */}
+          <IconButton color="secondary" onClick={() => handleDelete(params.row.id)}>
+            <DeleteIcon />
+          </IconButton>
+
+          {/* View/Details Icon Button */}
+          <IconButton color="default" onClick={() => handleDetails(params.row.id)}>
+            <VisibilityIcon />
+          </IconButton>
+      </Box>
       ),
     },
   ];
