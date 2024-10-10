@@ -17,22 +17,15 @@ import { toast } from 'react-toastify';
 
 //const base_url=process.env.REACT_APP_BASE_URL
 //const base_url='http://localhost:1111'
-const base_url='https://najm-finance-and-donation.nodescript-it.com'
+//const base_url='https://najm-finance-and-donation.nodescript-it.com'
 
-const token = localStorage.getItem('token');
-const config = {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  };
-
-
+import { base_url } from "../../util/config"; 
 
 export const eventList=()=>{
     return async(dispatch)=>{
         dispatch({type:EVENT_LIST_REQUEST})
         try{
-            const response=await axios.get(`${base_url}/events`,config)
+            const response=await axios.get(`${base_url}/events`)
             const {data}=response.data
             dispatch({type:EVENT_LIST_SUCCESS,payload:data})
         }catch(error){
@@ -47,7 +40,7 @@ export const insertEvent=(eventInfo)=>{
     return async(dispatch)=>{
         dispatch({type:EVENT_CREATE_REQUEST})
         try{
-            const response=await axios.post(`${base_url}/events`,eventInfo,config)
+            const response=await axios.post(`${base_url}/events`,eventInfo)
             const {data}=response.data
             dispatch({type:EVENT_CREATE_SUCCESS,payload:data})
             toast.success("Event add successfully")
@@ -64,7 +57,7 @@ export const deleteEvent = (eventId) => {
     return async (dispatch) => {
       dispatch({ type: EVENT_DELETE_REQUEST });
       try {
-        await axios.delete(`${base_url}/events/${eventId}`,config);
+        await axios.delete(`${base_url}/events/${eventId}`);
         dispatch({ type: EVENT_DELETE_SUCCESS, payload: eventId });
         toast.success('Event deleted successfully');
       } catch (error) {
@@ -80,7 +73,7 @@ export const deleteEvent = (eventId) => {
     return async (dispatch) => {
         dispatch({ type: EVENT_UPDATE_REQUEST });
         try {
-            const response = await axios.put(`${base_url}/events/${eventId}`, eventInfo,config);
+            const response = await axios.put(`${base_url}/events/${eventId}`, eventInfo);
             const { data } = response.data;
             dispatch({ type: EVENT_UPDATE_SUCCESS, payload: data });
             toast.success("event updated successfully");

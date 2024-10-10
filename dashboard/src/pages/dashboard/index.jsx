@@ -1,39 +1,38 @@
 import { Box, Button, IconButton, Menu, MenuItem, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
-import { mockTransactions } from "../../data/mockData";
-import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import EmailIcon from "@mui/icons-material/Email";
-import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import GroupIcon from '@mui/icons-material/Group';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import TrafficIcon from "@mui/icons-material/Traffic";
 import Header from "../../components/Header";
-import LineChart from "../../components/LineChart";
-import GeographyChart from "../../components/GeographyChart";
-import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import ProgressCircle from "../../components/ProgressCircle";
 import { ToastContainer } from "react-toastify";
 import { useTranslation } from 'react-i18next';
 import {groupList} from '../../redux/actions/groupActions'
 import {memberList,unPaymentList} from '../../redux/actions/memberAction'
 import {eventList} from '../../redux/actions/eventActions'
 import {paymentList} from '../../redux/actions/paymentActions'
+import {expenseList} from '../../redux/actions/expenseActions'
+import {expenseCategoryList} from '../../redux/actions/expenseCategoryActions'
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import Members from "../members";
 import { DataGrid } from "@mui/x-data-grid";
 import MemberDetails from "../members/memberDetails";
 
-
+const getCurrentMonthName = () => {
+  const date = new Date();
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+  return monthNames[date.getMonth()]; 
+};
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const currentMonth = getCurrentMonthName();
   const { t } = useTranslation();
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedRowId, setSelectedRowId] = useState(null);
@@ -45,6 +44,8 @@ const Dashboard = () => {
   const {members,unPaymentMembers}=useSelector((state)=>state.member)
   const {events}=useSelector((state)=>state.event)
   const {payments}=useSelector((state)=>state.payment)
+  const {expenses}=useSelector((state)=>state.expense)
+  const {expenseCategories}=useSelector((state)=>state.expenseCategory)
 
 
 
@@ -54,11 +55,13 @@ const Dashboard = () => {
     dispatch(eventList());
     dispatch(paymentList())
     dispatch(unPaymentList())
+    dispatch(expenseList())
+    dispatch(expenseCategoryList())
   }, [dispatch]);
 
-  useEffect(()=>{
-    console.log(unPaymentMembers)
-  },[dispatch])
+
+  const totalPayments = payments?.reduce((acc, payment) => acc + parseFloat(payment.amount), 0) || 0;
+  const totalExpenses = expenses?.reduce((acc, exp) => acc + parseFloat(exp.amount), 0) || 0;
 
   const handleMenuOpen = (event, id) => {
     setAnchorEl(event.currentTarget);
@@ -81,6 +84,8 @@ const Dashboard = () => {
     setOpenDetailsDialog(false);
     setSelectedMember(null);
   };
+
+
 
 
   const columns = [
@@ -120,9 +125,7 @@ const Dashboard = () => {
     <Box m="20px">
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title={t('DAHSBOARD')} subtitle="Welcome to your dashboard" />
-
-       
+        <Header title={t('DASHBOARD')} subtitle={t('WELCOME_DASHBOARD')} />
       </Box>
 
    
@@ -144,7 +147,7 @@ const Dashboard = () => {
         >
           <StatBox
             title={groups?.length || 0}
-            subtitle="Total Groups"
+            subtitle={t('TOTAL_GROUPS')}
             progress="0.25"
             icon={
               <GroupIcon
@@ -164,7 +167,7 @@ const Dashboard = () => {
         >
           <StatBox
             title={members?.length || 0}
-            subtitle="Total Members"
+            subtitle={t('TOTAL_MEMBERS')}
             progress="0.25"
             icon={
               <AccountCircleIcon
@@ -184,7 +187,7 @@ const Dashboard = () => {
         >
           <StatBox
             title={events?.length || 0}
-            subtitle="Total Events"
+            subtitle={t('TOTAL_EVENTS')}
             progress="0.25"
             icon={
               <EventAvailableIcon
@@ -203,8 +206,8 @@ const Dashboard = () => {
           justifyContent="center"
         >
           <StatBox
-            title={payments?.length || 0}
-            subtitle="Total Payments"
+            title={totalPayments}
+            subtitle={t('TOTAL_PAYMENTS')}
             progress="0.25"
             icon={
               <MonetizationOnIcon
@@ -216,12 +219,52 @@ const Dashboard = () => {
         
 
         {/* ROW 2 */}
-        {/* ROW 2 */}
+
+        <Box
+          gridColumn="span 3"
+          backgroundColor={colors.primary[400]}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <StatBox
+            title={totalExpenses}
+            subtitle={t('TOTAL_EXPENSE')}
+            progress="0.25"
+            icon={
+              <MonetizationOnIcon
+                sx={{ color: colors.greenAccent[600], fontSize: '26px' }}
+              />
+            }
+          />
+        </Box>
+
+        <Box
+          gridColumn="span 3"
+          backgroundColor={colors.primary[400]}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <StatBox
+            title={expenseCategories?.length || 0}
+            subtitle={t('TOTAL_EXPENSE_CATEGORY')}
+            progress="0.25"
+            icon={
+              <EventAvailableIcon
+                sx={{ color: colors.greenAccent[600], fontSize: '26px' }}
+              />
+            }
+          />
+        </Box>
+        
+
+        {/* ROW 3 */}
         <Box gridColumn="span 12">
           <Box m="40px 0 0 0">
             {/* Title for Unpayment Members */}
             <Typography variant="h5" color={colors.grey[100]} mb={2}>
-              Unpayment Members: Current Month
+            <Header title={t('UNPAID_MEMBERS')} subtitle={currentMonth} />
             </Typography>
             
             <Box
@@ -255,6 +298,7 @@ const Dashboard = () => {
 
        
       </Box>
+
       <MemberDetails open={openDetailsDialog} member={selectedMember} onClose={handleCloseDetailsDialog} colors={colors} />
       <ToastContainer/>
     </Box>

@@ -93,6 +93,15 @@ INSERT INTO translations (translation_key, translation_value, language_id) VALUE
 ('DELETE', 'Delete', 1),
 ('DETAILS', 'Details', 1);
 
+('WELCOME_DASHBOARD', 'Welcome to your dashboard', 1),
+('TOTAL_GROUPS', 'Total Groups', 1),
+('TOTAL_MEMBERS', 'Total Members', 1),
+('TOTAL_EVENTS', 'Total Events', 1),
+('TOTAL_PAYMENTS', 'Total Payments', 1),
+('TOTAL_EXPENSE', 'Total Expense', 1),
+('TOTAL_EXPENSE_CATEGORY', 'Total Expense Category', 1),
+('UNPAID_MEMBERS', 'Unpayment Members', 1);
+
 
 
 INSERT INTO translations (translation_key, translation_value, language_id) VALUES
@@ -189,3 +198,13 @@ INSERT INTO translations (translation_key, translation_value, language_id) VALUE
 ('EDIT', 'تعديل', 2),
 ('DELETE', 'حذف', 2),
 ('DETAILS', 'التفاصيل', 2);
+
+
+('WELCOME_DASHBOARD', 'مرحبًا بك في لوحة التحكم الخاصة بك', 2),
+('TOTAL_GROUPS', 'مجموع المجموعات', 2),
+('TOTAL_MEMBERS', 'إجمالي الأعضاء', 2),
+('TOTAL_EVENTS', 'مجموع الفعاليات', 2),
+('TOTAL_PAYMENTS', 'إجمالي المدفوعات', 2),
+('TOTAL_EXPENSE', 'إجمالي النفقات', 2),
+('TOTAL_EXPENSE_CATEGORY', 'إجمالي فئة النفقات', 2),
+('UNPAID_MEMBERS', 'أعضاء غير مدفوعين', 2);

@@ -23,8 +23,8 @@ const MemberDetails = ({ open, onClose, member, colors }) => {
   const { t, i18n } = useTranslation();
   
   // Determine direction based on the current language (rtl for Arabic)
-  const isRtl = i18n.language === 'ar';
-  const direction = isRtl ? 'rtl' : 'ltr';
+  const isRtl = i18n.language === 'ar' || i18n.language==='fa';
+  const direction = isRtl ? 'rtl' : 'ltr'; 
 
   const formatDate = (dateStr) => {
     const date = new Date(dateStr);

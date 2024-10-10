@@ -19,15 +19,7 @@ import { toast } from "react-toastify";
 
 //const base_url=process.env.REACT_APP_BASE_URL
 //const base_url='http://localhost:1111'
-const base_url='https://najm-finance-and-donation.nodescript-it.com'
-
-const token = localStorage.getItem('token');
-const config = {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  };
-
+import { base_url } from "../../util/config"; 
 
 
 
@@ -35,7 +27,7 @@ export const expenseCategoryList=()=>{
     return async(dispatch)=>{
         dispatch({type:EXPENSE_CATEGORY_LIST_REQUEST})
         try{
-            const response=await axios.get(`${base_url}/expense-categories`,config)
+            const response=await axios.get(`${base_url}/expense-categories`)
            
             const {data}=response.data
             dispatch({type:EXPENSE_CATEGORY_LIST_SUCCESS,payload:data})
@@ -49,7 +41,7 @@ export const expenseCategoryList=()=>{
 export const deleteExpenseCategory = (id) => async (dispatch) => {
     dispatch({ type: EXPENSE_CATEGORY_DELETE_REQUEST });
     try {
-      await axios.delete(`${base_url}/expense-categories/${id}`,config);
+      await axios.delete(`${base_url}/expense-categories/${id}`);
       dispatch({ type: EXPENSE_CATEGORY_DELETE_SUCCESS, payload: id });
       toast.success("Expense Category Deleted Successfully")
     } catch (error) {
@@ -65,7 +57,7 @@ export const deleteExpenseCategory = (id) => async (dispatch) => {
   export const insertExpenseCategory = (categoryData) => async (dispatch) => {
     dispatch({ type: EXPENSE_CATEGORY_ADD_REQUEST });
     try {
-      const response = await axios.post(`${base_url}/expense-categories`, categoryData, config);
+      const response = await axios.post(`${base_url}/expense-categories`, categoryData);
       const { data } = response.data;
       dispatch({ type: EXPENSE_CATEGORY_ADD_SUCCESS, payload: data });
       toast.success("Expense Category Added Successfully");
@@ -83,7 +75,7 @@ export const deleteExpenseCategory = (id) => async (dispatch) => {
   export const editExpenseCategory = (id, categoryData) => async (dispatch) => {
     dispatch({ type: EXPENSE_CATEGORY_EDIT_REQUEST });
     try {
-      const response = await axios.put(`${base_url}/expense-categories/${id}`, categoryData, config);
+      const response = await axios.put(`${base_url}/expense-categories/${id}`, categoryData);
       const { data } = response.data;
       dispatch({ type: EXPENSE_CATEGORY_EDIT_SUCCESS, payload: data });
       toast.success("Expense Category Updated Successfully");

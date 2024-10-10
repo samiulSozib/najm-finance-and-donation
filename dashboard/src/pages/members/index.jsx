@@ -128,7 +128,7 @@ const Members = () => {
     setGroupFilter(event.target.value);
   };
 
-  const isRtl = i18n.language === 'ar';
+  const isRtl = i18n.language === 'ar'||i18n.language==='fa';
   const columns = [
     { field: "id", headerName: t('ID'), flex: 0.5 },
     { field: "name", headerName: t('MEMBER_NAME'), flex: 1 },
@@ -247,7 +247,7 @@ const Members = () => {
 
       {/* Member Form Dialog */}
       <Dialog open={openDialog} onClose={handleDialogClose}>
-        <DialogTitle>{isEditing ? t('EDIT_MEMBER') : t('ADD_MEMBER')}</DialogTitle>
+        <DialogTitle sx={{ backgroundColor: colors.blueAccent[700] }}>{isEditing ? t('EDIT_MEMBER') : t('ADD_MEMBER')}</DialogTitle>
         <DialogContent>
           <TextField
             name="name"
@@ -307,8 +307,26 @@ const Members = () => {
           </FormControl>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDialogClose}>{t('CANCEL')}</Button>
-          <Button onClick={handleFormSubmit} color="primary">
+          <Button onClick={handleDialogClose} sx={{
+              backgroundColor: colors.redAccent[700],
+              color: colors.grey[100],
+              fontSize: "14px",
+              fontWeight: "bold",
+              padding: "10px 20px",
+              "&:hover": {
+                backgroundColor: colors.blueAccent[800],
+              }
+            }}>{t('CANCEL')}</Button>
+          <Button onClick={handleFormSubmit} sx={{
+              backgroundColor: colors.greenAccent[700],
+              color: colors.grey[100],
+              fontSize: "14px",
+              fontWeight: "bold",
+              padding: "10px 20px",
+              "&:hover": {
+                backgroundColor: colors.greenAccent[800],
+              }
+            }}>
             {isEditing ? t('UPDATE') : t('ADD')}
           </Button>
         </DialogActions>

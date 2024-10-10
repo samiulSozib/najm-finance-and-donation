@@ -93,7 +93,7 @@ const GroupType = () => {
   };
 
   // Detect if the language is Arabic (RTL)
-  const isRtl = i18n.language === 'ar';
+  const isRtl = i18n.language === 'ar' || i18n.language==='fa';
 
   // Responsive breakpoints for different devices
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));

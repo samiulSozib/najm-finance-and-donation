@@ -92,7 +92,7 @@ const Event = () => {
     handleClose();
   };
 
-  const isRtl = i18n.language === 'ar';
+  const isRtl = i18n.language === 'ar' || i18n.language==='fa';
 
   const columns = [
     { field: "id", headerName: t('ID'), flex: 0.5 },

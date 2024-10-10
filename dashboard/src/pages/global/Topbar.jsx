@@ -1,47 +1,45 @@
+// src/pages/global/Topbar.js
 import { Box, IconButton, MenuItem, Select, useTheme } from "@mui/material";
 import { useContext, useState } from "react";
 import { ColorModeContext, tokens } from "../../theme";
-import { useTranslation } from 'react-i18next'; // Import useTranslation
+import { useTranslation } from 'react-i18next';
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
-import LanguageIcon from "@mui/icons-material/Language"; // Import Language icon
+import LanguageIcon from "@mui/icons-material/Language";
 import { useDispatch } from 'react-redux';
 import { logout } from '../../redux/actions/authAction';
+import { useSidebar } from "../../context/SidebarContext"; // Import the context
 
 const Topbar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
   const dispatch = useDispatch();
-  
-  const { t, i18n } = useTranslation(); // Access translation functions
-  const [language, setLanguage] = useState(i18n.language); // Set initial language from i18n
+  const { t, i18n } = useTranslation();
+  const [language, setLanguage] = useState(i18n.language);
+  const { setIsCollapsed } = useSidebar(); // Use the context
 
   const handleLogout = () => {
-    dispatch(logout()); // Dispatch logout action
+    dispatch(logout());
   };
 
   const handleLanguageChange = (event) => {
     const newLanguage = event.target.value;
     setLanguage(newLanguage);
-    i18n.changeLanguage(newLanguage); // Change the language
+    i18n.changeLanguage(newLanguage);
+
+    // Collapse and reopen sidebar when language is changed
+    setIsCollapsed(true); // Collapse the sidebar
+    setTimeout(() => setIsCollapsed(false), 1000); // Reopen the sidebar after a short delay
   };
 
   return (
     <Box display="flex" justifyContent="space-between" p={2}>
-      {/* SEARCH BAR */}
-      <Box
-        display="flex"
-        backgroundColor={colors.primary[400]}
-        borderRadius="3px"
-      >
+      <Box display="flex" backgroundColor={colors.primary[400]} borderRadius="3px">
         {/* Search bar logic can go here */}
       </Box>
-
-      {/* ICONS */}
       <Box display="flex" alignItems="center">
-        {/* Theme toggle button */}
         <IconButton onClick={colorMode.toggleColorMode}>
           {theme.palette.mode === "dark" ? (
             <DarkModeOutlinedIcon />
@@ -49,8 +47,6 @@ const Topbar = () => {
             <LightModeOutlinedIcon />
           )}
         </IconButton>
-        
-        {/* Language change option */}
         <Box display="flex" alignItems="center" ml={2}>
           <LanguageIcon />
           <Select
@@ -58,13 +54,18 @@ const Topbar = () => {
             onChange={handleLanguageChange}
             sx={{ ml: 1, color: colors.grey[100] }}
           >
-            <MenuItem value="en">English</MenuItem>
-            <MenuItem value="ar">Arabic</MenuItem>
+            <MenuItem value="en" disabled={language === 'en'}>
+              English
+            </MenuItem>
+            <MenuItem value="ar" disabled={language === 'ar'}>
+              Arabic
+            </MenuItem>
+            <MenuItem value="fa" disabled={language === 'fa'}>
+              Persian
+            </MenuItem>
           </Select>
         </Box>
-
-        {/* Logout button */}
-        <IconButton onClick={handleLogout} color="error">
+        <IconButton onClick={handleLogout}>
           <LogoutIcon />
         </IconButton>
       </Box>

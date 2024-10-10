@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, IconButton, Menu, MenuItem, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Select, InputLabel, FormControl, useMediaQuery } from "@mui/material";
+import { Box, IconButton, Menu, MenuItem, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Select, InputLabel, FormControl, useMediaQuery, ToggleButtonGroup, ToggleButton } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,6 +30,7 @@ const GroupTypeDetails = () => {
   const [openAddEditDialog, setOpenAddEditDialog] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({ name: "", description: "", leader_id: "", group_type: "" });
+  const [selectedGroupType, setSelectedGroupType] = useState(formData.group_type);
 
   const dispatch = useDispatch();
   const { groups } = useSelector((state) => state.group);
@@ -92,6 +93,15 @@ const GroupTypeDetails = () => {
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleGroupTypeChange = (event, newValue) => {
+    if (newValue !== null) {
+      setSelectedGroupType(newValue);
+      // Update your formData here if necessary
+      // For example:
+      setFormData({ ...formData, group_type: newValue });
+    }
   };
 
   const columns = [
@@ -225,29 +235,64 @@ const GroupTypeDetails = () => {
             </FormControl>
           )}
 
-          <FormControl fullWidth margin="dense">
-            <InputLabel id="group-label">{t('SELECT_GROUP_TYPE')}</InputLabel>
-            <Select
-              labelId="group-label"
-              name="group_type"
-              value={formData.group_type}
-              onChange={handleInputChange}
-              label={t('SELECT_GROUP_TYPE')}
-              required
-            >
-              {groupTypes && groupTypes.map((groupType) => (
-                <MenuItem key={groupType.id} value={groupType.id}>
-                  {groupType.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+<FormControl fullWidth margin="dense">
+  <InputLabel id="group-label" shrink>{t('SELECT_GROUP_TYPE')}</InputLabel>
+  <ToggleButtonGroup
+    value={selectedGroupType}
+    exclusive
+    onChange={handleGroupTypeChange}
+    aria-label="group types"
+    sx={{mt:3}}
+  >
+    {groupTypes && groupTypes.map((groupType) => (
+      <ToggleButton
+        key={groupType.id}
+        value={groupType.id}
+        aria-label={groupType.name}
+        sx={{
+          borderRadius: '4px', // Make the button rectangular with slightly rounded corners
+          border: `2px solid ${selectedGroupType === groupType.id ? '#007bff' : '#ccc'}`, // Change border color based on selection
+          backgroundColor: selectedGroupType === groupType.id ? '#007bff' : '#fff', // Change background color when selected
+          color: selectedGroupType === groupType.id ? '#fff' : '#000', // Change text color based on selection
+          transition: 'background-color 0.3s, color 0.3s', // Smooth transition effect
+          '&:hover': {
+            backgroundColor: selectedGroupType === groupType.id ? '#0056b3' : '#f0f0f0', // Hover effect for selected and unselected states
+          },
+          margin: '0 5px', // Horizontal margin for space between buttons
+          padding: '10px 20px', // Padding for better button size
+        }}
+      >
+        {groupType.name}
+      </ToggleButton>
+    ))}
+  </ToggleButtonGroup>
+</FormControl>
+
+
         </DialogContent>
-        <DialogActions sx={{ backgroundColor: colors.blueAccent[700] }}>
-          <Button onClick={handleAddEditClose} sx={{ color: colors.grey[100] }}>
+        <DialogActions>
+          <Button onClick={handleAddEditClose} sx={{
+              backgroundColor: colors.redAccent[700],
+              color: colors.grey[100],
+              fontSize: "14px",
+              fontWeight: "bold",
+              padding: "10px 20px",
+              "&:hover": {
+                backgroundColor: colors.blueAccent[800],
+              }
+            }}>
             {t('CANCEL')}
           </Button>
-          <Button onClick={handleAddEditSubmit} sx={{ color: colors.grey[100] }}>
+          <Button onClick={handleAddEditSubmit} sx={{
+              backgroundColor: colors.greenAccent[700],
+              color: colors.grey[100],
+              fontSize: "14px",
+              fontWeight: "bold",
+              padding: "10px 20px",
+              "&:hover": {
+                backgroundColor: colors.greenAccent[800],
+              }
+            }}>
             {isEditing ? t('SAVE_CHANGES') : t('ADD_GROUP')}
           </Button>
         </DialogActions>

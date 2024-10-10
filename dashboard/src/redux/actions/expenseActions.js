@@ -19,21 +19,14 @@ import { toast } from "react-toastify";
 
 //const base_url=process.env.REACT_APP_BASE_URL
 //const base_url='http://localhost:1111'
-const base_url='https://najm-finance-and-donation.nodescript-it.com'
-
-const token = localStorage.getItem('token');
-const config = {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  };
+import { base_url } from "../../util/config"; 
 
 
 export const expenseList=()=>{
     return async(dispatch)=>{
         dispatch({type:EXPENSE_LIST_REQUEST})
         try{
-            const response=await axios.get(`${base_url}/expenses`,config)
+            const response=await axios.get(`${base_url}/expenses`)
            
             const {data}=response.data
           
@@ -48,7 +41,7 @@ export const insertExpense = (expensesData) => {
     return async (dispatch) => {
         dispatch({ type: EXPENSE_INSERT_REQUEST });
         try {
-            const response = await axios.post(`${base_url}/expenses`, expensesData,config);
+            const response = await axios.post(`${base_url}/expenses`, expensesData);
             const { data } = response.data;
             dispatch({ type: EXPENSE_INSERT_SUCCESS, payload: data });
             toast.success("Expense Created Successfully")
@@ -65,7 +58,7 @@ export const deleteExpense = (id) => {
     return async (dispatch) => {
         dispatch({ type: EXPENSE_DELETE_REQUEST });
         try {
-            await axios.delete(`${base_url}/expenses/${id}`,config);
+            await axios.delete(`${base_url}/expenses/${id}`);
             dispatch({ type: EXPENSE_DELETE_SUCCESS, payload: id });
             toast.success("Deleted Successfully")
         } catch (error) {
@@ -81,7 +74,7 @@ export const editExpense = (id, updatedExpenseData) => {
     return async (dispatch) => {
         dispatch({ type: EXPENSE_EDIT_REQUEST });
         try {
-            const response = await axios.put(`${base_url}/expenses/${id}`, updatedExpenseData, config);
+            const response = await axios.put(`${base_url}/expenses/${id}`, updatedExpenseData);
             console.log(response)
             const { data } = response.data;
             dispatch({ type: EXPENSE_EDIT_SUCCESS, payload: data });

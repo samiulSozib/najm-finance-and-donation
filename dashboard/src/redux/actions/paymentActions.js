@@ -17,13 +17,8 @@ import { toast } from "react-toastify";
 
 //const base_url=process.env.REACT_APP_BASE_URL
 //const base_url='http://localhost:1111'
-const base_url='https://najm-finance-and-donation.nodescript-it.com'
-const token = localStorage.getItem('token');
-const config = {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  };
+import { base_url } from "../../util/config"; 
+
 
 
 
@@ -32,7 +27,7 @@ export const paymentList=(page,item_per_page)=>{
       
         dispatch({type:PAYMENT_LIST_REQUEST})
         try{
-            const response=await axios.get(`${base_url}/payments?page=${page}&item_per_page=${item_per_page}`,config)
+            const response=await axios.get(`${base_url}/payments?page=${page}&item_per_page=${item_per_page}`)
             //console.log(response.data)
             const data=response.data.data
             const totalItems=response.data.payload.pagination.total_items
@@ -49,7 +44,7 @@ export const deletePayment = (paymentId) => {
     return async (dispatch) => {
       dispatch({ type: PAYMENT_DELETE_REQUEST });
       try {
-        await axios.delete(`${base_url}/payments/${paymentId}`,config);
+        await axios.delete(`${base_url}/payments/${paymentId}`);
         dispatch({ type: PAYMENT_DELETE_SUCCESS, payload: paymentId });
         toast.success("Payment Deleted Successfully")
       } catch (error) {
@@ -66,7 +61,7 @@ export const addPayment = (formData) => {
   return async (dispatch) => {
     dispatch({ type: PAYMENT_ADD_REQUEST });
     try {
-      const response = await axios.post(`${base_url}/payments`, formData,config);
+      const response = await axios.post(`${base_url}/payments`, formData);
       const { data } = response.data;
       console.log(data)
       dispatch({ type: PAYMENT_ADD_SUCCESS, payload: data });
@@ -84,7 +79,7 @@ export const editPayment = (paymentId, formData) => {
   return async (dispatch) => {
     dispatch({ type: PAYMENT_EDIT_REQUEST });
     try {
-        const response = await axios.put(`${base_url}/payments/${paymentId}`, formData,config );
+        const response = await axios.put(`${base_url}/payments/${paymentId}`, formData );
       const { data } = response.data;
       console.log(data)
       dispatch({ type: PAYMENT_EDIT_SUCCESS, payload: data });
