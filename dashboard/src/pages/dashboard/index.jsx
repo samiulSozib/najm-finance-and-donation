@@ -279,7 +279,7 @@ const Dashboard = () => {
                   <Box display="flex" justifyContent="center" alignItems="center" height="100%">
                     <CircularProgress size={60} />
                     <Typography variant="h6" ml={2}>
-                      Loading roles...
+                      Loading ...
                     </Typography>
                   </Box>
                 ) : (

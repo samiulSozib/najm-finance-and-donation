@@ -193,7 +193,7 @@ const Payments = () => {
         {loading ? (
           <Box display="flex" justifyContent="center" alignItems="center" height="100%">
             <CircularProgress size={60} />
-            <Typography variant="h6" ml={2}>Loading payments...</Typography>
+            <Typography variant="h6" ml={2}>Loading ...</Typography>
           </Box>
         ) : (
           <DataGrid
