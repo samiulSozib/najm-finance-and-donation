@@ -26,7 +26,7 @@ const StatBox = ({ title, subtitle, icon, progress, increase }) => {
           {subtitle}
         </Typography>
         <Typography
-          variant="h5"
+          variant="h3"
           fontStyle="italic"
           sx={{ color: colors.greenAccent[600] }}
         >
