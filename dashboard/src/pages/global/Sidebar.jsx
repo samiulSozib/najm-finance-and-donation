@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
-import { Box, IconButton, Typography, useTheme, useMediaQuery } from "@mui/material";
+import { Box, IconButton, Typography, useTheme, useMediaQuery, Hidden } from "@mui/material";
 import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
@@ -75,9 +75,9 @@ const Sidebar = () => {
       visibility: isMobile ? (isCollapsed ? 'hidden' : 'visible') : 'visible',
       opacity: isMobile ? (isCollapsed ? 0 : 1) : 1,
       transition: 'visibility 0s, opacity 0.5s linear',
-      width: isCollapsed ? '0' : '350px',
-      
-      paddingTop: '90px', // Add padding to the top of the sidebar
+      width: isCollapsed ? '0' : '320px',
+      overflow:!isMobile?'hidden':'',
+      paddingTop: '70px', // Add padding to the top of the sidebar
       "& .pro-sidebar-inner": {
         background: `${colors.primary[400]} !important`,
       },
