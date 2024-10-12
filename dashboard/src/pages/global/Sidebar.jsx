@@ -120,7 +120,7 @@ const Sidebar = () => {
           )}
 
           {/* MENU ITEMS */}
-          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+          <Box paddingLeft={isCollapsed ? undefined : ""}>
             <Item
               title={t("DASHBOARD")}
               to="/"
