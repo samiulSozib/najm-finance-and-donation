@@ -33,6 +33,16 @@ const Login = () => {
   };
 
   useEffect(() => {
+    // Disable body scroll when the Login component is mounted
+    document.body.style.overflow = "hidden";
+
+    // Cleanup function to reset the overflow style when unmounted
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, []);
+
+  useEffect(() => {
     if (isAuthenticated) {
       navigate('/');
       console.log("login success");
