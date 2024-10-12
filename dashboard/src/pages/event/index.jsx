@@ -21,6 +21,7 @@ const Event = () => {
   const { loading,events } = useSelector(state => state.event);
   const { permissions } = useSelector((state) => state.auth);
   const {t,i18n }=useTranslation()
+  const isMobileOrTablet = window.innerWidth <= 900;
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedRowId, setSelectedRowId] = useState(null);
@@ -98,16 +99,17 @@ const Event = () => {
   const isRtl = i18n.language === 'ar' || i18n.language==='fa';
 
   const columns = [
-    { field: "id", headerName: t('ID'), flex: 0.5 },
-    { field: "name", headerName: t('EVENT_NAME'), flex: 1 },
-    { field: "description", headerName: t('EVENT_DESCRIPTION'), flex: 1 },
-    { field: "start_date", headerName: t('EVENT_START_DATE'), flex: 1,
+    { field: "id", headerName: t('ID'), width:80, flex: 0 },
+    { field: "name", headerName: t('EVENT_NAME'),width: 150, flex:isMobileOrTablet?0:1  },
+    { field: "description", headerName: t('EVENT_DESCRIPTION'),width: 150, flex:isMobileOrTablet?0:1  },
+    { field: "start_date", headerName: t('EVENT_START_DATE'),
+      width: 150, flex:isMobileOrTablet?0:1 ,
       renderCell: (params) => {
         const date = new Date(params.value);
         return date.toLocaleDateString();
       },
      },
-    { field: "end_date", headerName: t('EVENT_END_DATE'), flex: 1,
+    { field: "end_date", headerName: t('EVENT_END_DATE'), width: 150, flex:isMobileOrTablet?0:1 ,
       renderCell: (params) => {
         const date = new Date(params.value);
         return date.toLocaleDateString();
@@ -116,7 +118,7 @@ const Event = () => {
     {
       field: "actions",
       headerName: t('ACTIONS'),
-      flex: 1,
+      width: 150, flex:isMobileOrTablet?0:1 ,
       renderCell: (params) => (
        
         <Box display="flex" justifyContent="start" gap={1}>

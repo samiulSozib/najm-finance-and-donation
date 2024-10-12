@@ -12,9 +12,16 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useSidebar } from "../../context/SidebarContext"; // Import the context
 
-const Item = ({ title, to, icon, selected, setSelected, isRTL }) => {
+const Item = ({ title, to, icon, selected, setSelected, isRTL, isMobile, setIsCollapsed }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const handleClick = () => {
+    setSelected(title);
+    if (isMobile) {
+      setIsCollapsed(true); // Collapse sidebar on mobile after item is clicked
+    }
+  };
 
   return (
     <MenuItem
@@ -23,7 +30,7 @@ const Item = ({ title, to, icon, selected, setSelected, isRTL }) => {
         color: colors.grey[100],
         textAlign: isRTL ? "right" : "left",
       }}
-      onClick={() => setSelected(title)}
+      onClick={handleClick}
       icon={icon}
     >
       <Typography>{title}</Typography>
@@ -45,7 +52,6 @@ const Sidebar = () => {
 
   // Media query to determine mobile state
   const isMobile = useMediaQuery("(max-width: 600px)");
-  
 
   return (
     <Box
@@ -54,7 +60,7 @@ const Sidebar = () => {
         visibility: isMobile ? (isCollapsed ? 'hidden' : 'visible') : 'visible',
         opacity: isMobile ? (isCollapsed ? 0 : 1) : 1,
         transition: 'visibility 0s, opacity 0.5s linear',
-        width: isCollapsed ? '0': '380px', // Adjust the width based on collapsed state
+        width: isCollapsed ? '0': '320px', // Adjust the width based on collapsed state
         overflow: 'hidden', // Prevents content from spilling over
         "& .pro-sidebar-inner": {
           background: `${colors.primary[400]} !important`,
@@ -76,29 +82,6 @@ const Sidebar = () => {
     >
       <ProSidebar collapsed={isCollapsed} rtl={isRTL}>
         <Menu iconShape="square">
-          {/* LOGO AND MENU ICON */}
-          {/* <MenuItem
-            onClick={() => setIsCollapsed(!isCollapsed)} // Toggle collapse
-            icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
-            style={{
-              margin: "10px 0 20px 0",
-              color: colors.grey[100],
-            }}
-          >
-            {!isCollapsed && (
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                ml="15px"
-              >
-                <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-                  <MenuOutlinedIcon />
-                </IconButton>
-              </Box>
-            )}
-          </MenuItem> */}
-
           {/* USER INFO */}
           {!isCollapsed && (
             <Box mb="25px">
@@ -128,6 +111,8 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
               isRTL={isRTL}
+              isMobile={isMobile}
+              setIsCollapsed={setIsCollapsed} // Pass function to close sidebar
             />
             {(permissions.includes('manage_group_types') || permissions.includes('view_group_types')) && (
               <Item
@@ -137,6 +122,8 @@ const Sidebar = () => {
                 selected={selected}
                 setSelected={setSelected}
                 isRTL={isRTL}
+                isMobile={isMobile}
+                setIsCollapsed={setIsCollapsed}
               />
             )}
             <Item
@@ -146,6 +133,8 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
               isRTL={isRTL}
+              isMobile={isMobile}
+              setIsCollapsed={setIsCollapsed}
             />
             <Item
               title={t("EVENTS")}
@@ -154,6 +143,8 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
               isRTL={isRTL}
+              isMobile={isMobile}
+              setIsCollapsed={setIsCollapsed}
             />
             <Item
               title={t("EXPENSE_CATEGORY")}
@@ -162,6 +153,8 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
               isRTL={isRTL}
+              isMobile={isMobile}
+              setIsCollapsed={setIsCollapsed}
             />
             <Item
               title={t("EXPENSES")}
@@ -170,6 +163,8 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
               isRTL={isRTL}
+              isMobile={isMobile}
+              setIsCollapsed={setIsCollapsed}
             />
             <Item
               title={t("PAYMENTS")}
@@ -178,6 +173,8 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
               isRTL={isRTL}
+              isMobile={isMobile}
+              setIsCollapsed={setIsCollapsed}
             />
             {(permissions.includes("view_roles") || permissions.includes("manage_roles")) && (
               <Item
@@ -187,6 +184,8 @@ const Sidebar = () => {
                 selected={selected}
                 setSelected={setSelected}
                 isRTL={isRTL}
+                isMobile={isMobile}
+                setIsCollapsed={setIsCollapsed}
               />
             )}
           </Box>
