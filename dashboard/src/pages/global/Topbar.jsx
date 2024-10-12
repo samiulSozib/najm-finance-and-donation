@@ -67,7 +67,7 @@ const Topbar = () => {
         {/* Mobile Menu Icon */}
         
 
-        <Box display="flex" alignItems="center" ml={2}>
+        <Box display="flex" alignItems="center" ml={1}>
           <LanguageIcon />
           <Select
             value={language}

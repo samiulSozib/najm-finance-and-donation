@@ -144,7 +144,7 @@ const GroupType = () => {
   ];
 
   return (
-    <Box paddingBottom="20px" m={isMobile ? "10px" : "20px"} dir={isRtl ? 'rtl' : 'ltr'}>
+    <Box paddingBottom="20px"  m={isMobile ? "10px" : "20px"} dir={isRtl ? 'rtl' : 'ltr'}>
       <Box display="flex" justifyContent="space-between" alignItems="start" flexDirection={isMobile ? 'column' : 'row'}>
         <Header title={t('GROUP_TYPE')} subtitle={t('GROUP_TYPE_LIST')} />
         <Button

@@ -129,7 +129,7 @@ const Dashboard = () => {
       <Grid container spacing={2}>
         {/* ROW 1 */}
         <Grid item xs={6} sm={6} md={4} lg={3}>
-          <Card sx={{ boxShadow: 3,backgroundColor: colors.primary[400]}}>
+          <Card sx={{ boxShadow: 3,backgroundColor: colors.primary[400],minHeight: '150px'}}>
             <CardContent>
               <StatBox
                 title={groups?.length || 0}
@@ -146,7 +146,7 @@ const Dashboard = () => {
         </Grid>
 
         <Grid item xs={6} sm={6} md={4} lg={3}>
-          <Card sx={{ boxShadow: 3,backgroundColor: colors.primary[400] }}>
+          <Card sx={{ boxShadow: 3,backgroundColor: colors.primary[400],minHeight: '150px' }}>
             <CardContent>
               <StatBox
                 title={members?.length || 0}
@@ -163,7 +163,7 @@ const Dashboard = () => {
         </Grid>
 
         <Grid item xs={6} sm={6} md={4} lg={3}>
-          <Card sx={{ boxShadow: 3,backgroundColor: colors.primary[400] }}>
+          <Card sx={{ boxShadow: 3,backgroundColor: colors.primary[400],minHeight: '150px' }}>
             <CardContent>
               <StatBox
                 title={events?.length || 0}
@@ -180,7 +180,7 @@ const Dashboard = () => {
         </Grid>
 
         <Grid item xs={6} sm={6} md={4} lg={3}>
-          <Card sx={{ boxShadow: 3,backgroundColor: colors.primary[400] }}>
+          <Card sx={{ boxShadow: 3,backgroundColor: colors.primary[400],minHeight: '150px' }}>
             <CardContent>
               <StatBox
                 title={totalPayments}
@@ -198,7 +198,7 @@ const Dashboard = () => {
 
         {/* ROW 2 */}
         <Grid item xs={6} sm={6} md={4} lg={3}>
-          <Card sx={{ boxShadow: 3,backgroundColor: colors.primary[400] }}>
+          <Card sx={{ boxShadow: 3,backgroundColor: colors.primary[400],minHeight: '150px' }}>
             <CardContent>
               <StatBox
                 title={totalExpenses}
@@ -215,7 +215,7 @@ const Dashboard = () => {
         </Grid>
 
         <Grid item xs={6} sm={6} md={4} lg={3}>
-          <Card sx={{ boxShadow: 3,backgroundColor: colors.primary[400] }}>
+          <Card sx={{ boxShadow: 3,backgroundColor: colors.primary[400],minHeight: '150px' }}>
             <CardContent>
               <StatBox
                 title={expenseCategories?.length || 0}
