@@ -121,7 +121,7 @@ const GroupType = () => {
     {
       field: "actions",
       headerName: t('ACTIONS'),
-      width: 120,flex:isMobileOrTablet?0:1,
+      width: 150,flex:isMobileOrTablet?0:1,
       renderCell: (params) => (
         <Box display="flex" justifyContent="start" gap={1}>
           {/* Edit Icon Button */}
