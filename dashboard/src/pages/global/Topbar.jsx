@@ -1,5 +1,4 @@
-// src/pages/global/Topbar.js
-import { Box, IconButton, MenuItem, Select, useTheme } from "@mui/material";
+import { Box, IconButton, Select, useTheme,MenuItem } from "@mui/material";
 import { useContext, useState } from "react";
 import { ColorModeContext, tokens } from "../../theme";
 import { useTranslation } from 'react-i18next';
@@ -9,7 +8,9 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import LanguageIcon from "@mui/icons-material/Language";
 import { useDispatch } from 'react-redux';
 import { logout } from '../../redux/actions/authAction';
-import { useSidebar } from "../../context/SidebarContext"; // Import the context
+import { useSidebar } from "../../context/SidebarContext"; 
+import MenuIcon from '@mui/icons-material/Menu'; // Import Menu icon
+
 
 const Topbar = () => {
   const theme = useTheme();
@@ -18,7 +19,7 @@ const Topbar = () => {
   const dispatch = useDispatch();
   const { t, i18n } = useTranslation();
   const [language, setLanguage] = useState(i18n.language);
-  const { setIsCollapsed } = useSidebar(); // Use the context
+  const { setIsCollapsed } = useSidebar(); // Get setIsCollapsed function
 
   const handleLogout = () => {
     dispatch(logout());
@@ -28,16 +29,22 @@ const Topbar = () => {
     const newLanguage = event.target.value;
     setLanguage(newLanguage);
     i18n.changeLanguage(newLanguage);
-
     // Collapse and reopen sidebar when language is changed
     setIsCollapsed(true); // Collapse the sidebar
-    setTimeout(() => setIsCollapsed(false), 1000); // Reopen the sidebar after a short delay
+    setTimeout(() => setIsCollapsed(false), 1000); 
+  };
+
+  // Handle opening the sidebar from the menu icon click
+  const handleSidebarToggle = () => {
+    setIsCollapsed((prev) => !prev); 
   };
 
   return (
-    <Box display="flex" justifyContent="space-between" p={2} >
-      <Box display="flex" backgroundColor={colors.primary[400]} borderRadius="3px">
-        {/* Search bar logic can go here */}
+    <Box display="flex" justifyContent="space-between" p={2}>
+      <Box display="flex">
+      <IconButton onClick={handleSidebarToggle} >
+          <MenuIcon />
+        </IconButton>
       </Box>
       <Box display="flex" alignItems="center">
         <IconButton onClick={colorMode.toggleColorMode}>
@@ -47,6 +54,10 @@ const Topbar = () => {
             <LightModeOutlinedIcon />
           )}
         </IconButton>
+        
+        {/* Mobile Menu Icon */}
+        
+
         <Box display="flex" alignItems="center" ml={2}>
           <LanguageIcon />
           <Select
@@ -65,6 +76,7 @@ const Topbar = () => {
             </MenuItem>
           </Select>
         </Box>
+        
         <IconButton onClick={handleLogout}>
           <LogoutIcon />
         </IconButton>

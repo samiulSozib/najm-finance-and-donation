@@ -1,4 +1,3 @@
-// src/pages/global/Sidebar.js
 import { useEffect, useState } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme, useMediaQuery } from "@mui/material";
@@ -12,8 +11,6 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useSidebar } from "../../context/SidebarContext"; // Import the context
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft"; // Import collapse icon
-
 
 const Item = ({ title, to, icon, selected, setSelected, isRTL }) => {
   const theme = useTheme();
@@ -46,22 +43,19 @@ const Sidebar = () => {
   // Detect if current language is RTL
   const isRTL = i18n.language === "ar" || i18n.language === "fa";
 
-  // Media queries for screen sizes
+  // Media query to determine mobile state
   const isMobile = useMediaQuery("(max-width: 600px)");
-  const isTabletOrDesktop = useMediaQuery("(min-width: 600px)");
-
-  useEffect(() => {
-    // Collapse or expand based on screen size
-    if (isMobile) {
-      setIsCollapsed(true);
-    } else if (isTabletOrDesktop) {
-      setIsCollapsed(false);
-    }
-  }, [isMobile, isTabletOrDesktop, setIsCollapsed]);
+  
 
   return (
     <Box
       sx={{
+        // Control visibility and sizing
+        visibility: isMobile ? (isCollapsed ? 'hidden' : 'visible') : 'visible',
+        opacity: isMobile ? (isCollapsed ? 0 : 1) : 1,
+        transition: 'visibility 0s, opacity 0.5s linear',
+        width: isCollapsed ? '0': '300px', // Adjust the width based on collapsed state
+        overflow: 'hidden', // Prevents content from spilling over
         "& .pro-sidebar-inner": {
           background: `${colors.primary[400]} !important`,
         },
@@ -83,7 +77,7 @@ const Sidebar = () => {
       <ProSidebar collapsed={isCollapsed} rtl={isRTL}>
         <Menu iconShape="square">
           {/* LOGO AND MENU ICON */}
-          <MenuItem
+          {/* <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)} // Toggle collapse
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
             style={{
@@ -91,33 +85,26 @@ const Sidebar = () => {
               color: colors.grey[100],
             }}
           >
-            {!isCollapsed &&  (
+            {!isCollapsed && (
               <Box
                 display="flex"
                 justifyContent="space-between"
                 alignItems="center"
                 ml="15px"
-                
               >
-                
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />
                 </IconButton>
               </Box>
             )}
-          </MenuItem>
+          </MenuItem> */}
 
           {/* USER INFO */}
-          {!isCollapsed && !isMobile && (
+          {!isCollapsed && (
             <Box mb="25px">
               <Box display="flex" justifyContent="center" alignItems="center">
-                {/* <img
-                  alt="profile-user"
-                  width="100px"
-                  height="100px"
-                  src="../../assets/user.png"
-                  style={{ cursor: "pointer", borderRadius: "50%" }}
-                /> */}
+                {/* Add user profile image here */}
+                <img src="https://www.pngplay.com/wp-content/uploads/12/User-Avatar-Profile-Clip-Art-Transparent-File.png" alt="" width={80} height={80}/>
               </Box>
               <Box textAlign="center">
                 <Typography
@@ -192,8 +179,7 @@ const Sidebar = () => {
               setSelected={setSelected}
               isRTL={isRTL}
             />
-            {(permissions.includes("view_roles") ||
-              permissions.includes("manage_roles")) && (
+            {(permissions.includes("view_roles") || permissions.includes("manage_roles")) && (
               <Item
                 title={t("ROLES")}
                 to="/role"

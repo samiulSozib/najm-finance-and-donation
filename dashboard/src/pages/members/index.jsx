@@ -137,7 +137,7 @@ const Members = () => {
   const isRtl = i18n.language === 'ar'||i18n.language==='fa';
   const columns = [
     { field: "id", headerName: t('ID'), width: 80,flex:0 }, // Set specific width
-    { field: "name", headerName: t('MEMBER_NAME'), width: 150, flex:isMobileOrTablet?0:1 }, // Increase width
+    { field: "name", headerName: t('MEMBER_NAME'), width: 150, flex:isMobileOrTablet?0:1 },
     { field: "occupation", headerName: t('MEMBER_OCCUPATION'), width: 150 ,flex:isMobileOrTablet?0:1}, // Increase width
     { field: "monthly_contribution", headerName: t('MEMBER_MONTHLY_CONTRIBUTION'), width: 150,flex:isMobileOrTablet?0:1 }, // Increase width
     { field: "address", headerName: t('MEMBER_ADDRESS'), width: 200,flex:isMobileOrTablet?0:1 }, // Increase width
