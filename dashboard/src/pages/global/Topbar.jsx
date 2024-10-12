@@ -36,11 +36,12 @@ const Topbar = () => {
 
   // Handle opening the sidebar from the menu icon click
   const handleSidebarToggle = () => {
+    console.log('fd')
     setIsCollapsed((prev) => !prev); 
   };
 
   return (
-    <Box display="flex" justifyContent="space-between" p={2} sx={{
+    <Box display="flex" justifyContent="space-between" p={1} sx={{
      
       position: 'fixed', // Make the Topbar fixed
       top: 0, // Position it at the top

@@ -32,9 +32,9 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <SidebarProvider>
-          <div className="app" dir={['ar', 'fa'].includes(i18n.language) ? 'rtl' : 'ltr'}>
+          <div className="app" dir={['ar', 'fa'].includes(i18n.language) ? 'rtl' : 'ltr'} >
             {!isLoginPage && <Sidebar />}
-            <main className="content" style={{overflow:"auto" ,paddingTop: '64px'}}>
+            <main className="content" style={{overflow:'auto',paddingTop: '64px'}}>
               {!isLoginPage && <Topbar />}
               <Routes>
                 <Route path="/login" element={<Login />} />

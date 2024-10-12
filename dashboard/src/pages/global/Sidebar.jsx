@@ -54,14 +54,29 @@ const Sidebar = () => {
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   return (
+    <>
+    {isMobile && !isCollapsed && (
+      <Box
+        onClick={() => setIsCollapsed(true)} // Close sidebar when clicking on the overlay
+        sx={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.6)', // Semi-transparent background
+          zIndex: 1000, // Position it above the content
+        }}
+      />
+    )}
     <Box
     sx={{
       // Control visibility and sizing
       visibility: isMobile ? (isCollapsed ? 'hidden' : 'visible') : 'visible',
       opacity: isMobile ? (isCollapsed ? 0 : 1) : 1,
       transition: 'visibility 0s, opacity 0.5s linear',
-      width: isCollapsed ? '0' : '320px',
-      overflow: 'hidden',
+      width: isCollapsed ? '0' : '350px',
+      
       paddingTop: '90px', // Add padding to the top of the sidebar
       "& .pro-sidebar-inner": {
         background: `${colors.primary[400]} !important`,
@@ -193,6 +208,7 @@ const Sidebar = () => {
         </Menu>
       </ProSidebar>
     </Box>
+    </>
   );
 };
 
