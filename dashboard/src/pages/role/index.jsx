@@ -44,6 +44,7 @@ const Role = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const {t,i18n}=useTranslation()
+  const isMobileOrTablet = window.innerWidth <= 900;
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedRowId, setSelectedRowId] = useState(null);
@@ -142,13 +143,13 @@ const Role = () => {
 
   const isRtl = i18n.language === 'ar' || i18n.language==='fa';
   const columns = [
-    { field: "id", headerName: t('ID'), flex: 0.5 },
-    { field: "name", headerName: t('ROLE_NAME'), flex: 1 },
-    { field: "description", headerName: t('ROLE_DESCRIPTION'), flex: 1 },
+    { field: "id", headerName: t('ID'), flex: 0,width:80 },
+    { field: "name", headerName: t('ROLE_NAME'),width: 150, flex:isMobileOrTablet?0:1 },
+    { field: "description", headerName: t('ROLE_DESCRIPTION'),width: 150, flex:isMobileOrTablet?0:1 },
     {
       field: "actions",
       headerName: t('ACTIONS'),
-      flex: 1,
+     width: 150, flex:isMobileOrTablet?0:1,
       renderCell: (params) => (
         <Box display="flex" justifyContent="start" gap={1}>
         
@@ -168,7 +169,7 @@ const Role = () => {
   ];
 
   return (
-    <Box m="20px" dir={isRtl ? 'rtl' : 'ltr'}>
+    <Box paddingBottom="20px" m="20px" dir={isRtl ? 'rtl' : 'ltr'}>
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title={t('ROLES')} subtitle={t('ROLE_LIST')} />
         <Button

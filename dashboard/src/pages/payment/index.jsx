@@ -20,6 +20,7 @@ const Payments = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const {t,i18n}=useTranslation()
+  const isMobileOrTablet = window.innerWidth <= 900;
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedRowId, setSelectedRowId] = useState(null);
@@ -114,22 +115,22 @@ const Payments = () => {
   const isRtl = i18n.language === 'ar' || i18n.language==='fa';
 
   const columns = [
-    { field: "id", headerName: t('ID'), flex: 0.5 },
-    { field: "Member.name", headerName: t('PAYMENT_MEMBER'), flex: 1 ,
+    { field: "id", headerName: t('ID'), flex: 0,width:80 },
+    { field: "Member.name", headerName: t('PAYMENT_MEMBER'), width: 150, flex:isMobileOrTablet?0:1,
       renderCell:(params)=>{
         return params.row.Member?.name||"N/A"
       }
     },
-    { field: "payment_date", headerName: t('PAYMENT_DATE'), flex: 1 ,
+    { field: "payment_date", headerName: t('PAYMENT_DATE'), width: 150, flex:isMobileOrTablet?0:1,
       renderCell:(params)=>{
         const date=new Date(params.value)
         return date.toLocaleDateString()
       }
     },
-    { field: "amount", headerName: t('PAYMENT_AMOUNT'), flex: 1 },
-    { field: "payment_type", headerName: t('PAYMENT_TYPE'), flex: 1 },
-    { field: "status", headerName: t('PAYMENT_STATUS'), flex: 1 },
-    { field: "Event.name", headerName: t('PAYMENT_EVENT'), flex: 1 ,
+    { field: "amount", headerName: t('PAYMENT_AMOUNT'), width: 150, flex:isMobileOrTablet?0:1},
+    { field: "payment_type", headerName: t('PAYMENT_TYPE'), width: 150, flex:isMobileOrTablet?0:1},
+    { field: "status", headerName: t('PAYMENT_STATUS'), width: 150, flex:isMobileOrTablet?0:1},
+    { field: "Event.name", headerName: t('PAYMENT_EVENT'), width: 150, flex:isMobileOrTablet?0:1,
       renderCell:(params)=>{
         return params.row.Event?.name||"N/A"
       }
@@ -157,7 +158,7 @@ const Payments = () => {
   ];
 
   return (
-    <Box m="20px" dir={isRtl ? 'rtl' : 'ltr'}>
+    <Box paddingBottom="20px" m="20px" dir={isRtl ? 'rtl' : 'ltr'}>
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title={t('PAYMENTS')} subtitle={t('PAYMENT_LIST')} />
         {permissions.includes('manage_payments')&&(

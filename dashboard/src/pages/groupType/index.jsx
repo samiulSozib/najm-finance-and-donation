@@ -19,6 +19,7 @@ const GroupType = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { t, i18n } = useTranslation();
+  const isMobileOrTablet = window.innerWidth <= 900;
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedRowId, setSelectedRowId] = useState(null);
@@ -108,18 +109,19 @@ const GroupType = () => {
     { 
       field: "id", 
       headerName: t('ID'), 
-      flex: isMobile ? 1 : 0.5, // Flex size depends on screen size
+      flex: 0, // Flex size depends on screen size
+      widht:80
     },
     { 
       field: "name", 
       headerName: t('GROUP_TYPE_NAME'), 
-      flex: 1,
+      width: 120,flex:isMobileOrTablet?0:1,
     },
     
     {
       field: "actions",
       headerName: t('ACTIONS'),
-      flex: 1,
+      width: 120,flex:isMobileOrTablet?0:1,
       renderCell: (params) => (
         <Box display="flex" justifyContent="start" gap={1}>
           {/* Edit Icon Button */}
@@ -142,7 +144,7 @@ const GroupType = () => {
   ];
 
   return (
-    <Box m={isMobile ? "10px" : "20px"} dir={isRtl ? 'rtl' : 'ltr'}>
+    <Box paddingBottom="20px" m={isMobile ? "10px" : "20px"} dir={isRtl ? 'rtl' : 'ltr'}>
       <Box display="flex" justifyContent="space-between" alignItems="start" flexDirection={isMobile ? 'column' : 'row'}>
         <Header title={t('GROUP_TYPE')} subtitle={t('GROUP_TYPE_LIST')} />
         <Button

@@ -22,6 +22,7 @@ const GroupTypeDetails = () => {
   const { t } = useTranslation();
   const { id } = useParams();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobileOrTablet = window.innerWidth <= 900;
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedRowId, setSelectedRowId] = useState(null);
@@ -108,19 +109,19 @@ const GroupTypeDetails = () => {
   };
 
   const columns = [
-    { field: "id", headerName: t('ID'), flex: 0.5 },
-    { field: "name", headerName: t('GROUP_NAME'), flex: 1 },
-    { field: "description", headerName: t('GROUP_DESCRIPTION'), flex: 1 },
+    { field: "id", headerName: t('ID'), flex: 0,width:80 },
+    { field: "name", headerName: t('GROUP_NAME'), width: 120,flex:isMobileOrTablet?0:1 },
+    { field: "description", headerName: t('GROUP_DESCRIPTION'), width: 120,flex:isMobileOrTablet?0:1 },
     {
       field: "GroupType.name",
       headerName: t('GROUP_TYPE_NAME'),
-      flex: 1,
+      width: 120,flex:isMobileOrTablet?0:1,
       renderCell: (params) => params.row.GroupType?.name || "N/A",
     },
     {
       field: "leader_id",
       headerName: t('LEADER'),
-      flex: 1,
+      width: 120,flex:isMobileOrTablet?0:1,
       renderCell: (params) => {
         const leader = params.row.Members.find((member) => member.member_type === 'leader');
         return leader ? leader.name : "N/A";
@@ -129,7 +130,7 @@ const GroupTypeDetails = () => {
     {
       field: "actions",
       headerName: t('ACTIONS'),
-      flex: 1,
+      width: 120,flex:isMobileOrTablet?0:1,
       renderCell: (params) => (
         <Box display="flex" justifyContent="start" gap={1}>
           {/* Edit Icon Button */}
@@ -149,7 +150,7 @@ const GroupTypeDetails = () => {
   ];
 
   return (
-    <Box m="20px">
+    <Box paddingBottom="20px" m="20px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title={t('GROUP')} subtitle={t('GROUP_LIST')} />
         <Button

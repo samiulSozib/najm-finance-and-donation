@@ -55,30 +55,31 @@ const Sidebar = () => {
 
   return (
     <Box
-      sx={{
-        // Control visibility and sizing
-        visibility: isMobile ? (isCollapsed ? 'hidden' : 'visible') : 'visible',
-        opacity: isMobile ? (isCollapsed ? 0 : 1) : 1,
-        transition: 'visibility 0s, opacity 0.5s linear',
-        width: isCollapsed ? '0': '320px', // Adjust the width based on collapsed state
-        overflow: 'hidden', // Prevents content from spilling over
-        "& .pro-sidebar-inner": {
-          background: `${colors.primary[400]} !important`,
-        },
-        "& .pro-icon-wrapper": {
-          backgroundColor: "transparent !important",
-        },
-        "& .pro-inner-item": {
-          padding: isRTL ? "5px 20px 5px 35px !important" : "5px 35px 5px 20px !important",
-          textAlign: isRTL ? "right" : "left",
-        },
-        "& .pro-inner-item:hover": {
-          color: "#868dfb !important",
-        },
-        "& .pro-menu-item.active": {
-          color: "#6870fa !important",
-        },
-      }}
+    sx={{
+      // Control visibility and sizing
+      visibility: isMobile ? (isCollapsed ? 'hidden' : 'visible') : 'visible',
+      opacity: isMobile ? (isCollapsed ? 0 : 1) : 1,
+      transition: 'visibility 0s, opacity 0.5s linear',
+      width: isCollapsed ? '0' : '320px',
+      overflow: 'hidden',
+      paddingTop: '90px', // Add padding to the top of the sidebar
+      "& .pro-sidebar-inner": {
+        background: `${colors.primary[400]} !important`,
+      },
+      "& .pro-icon-wrapper": {
+        backgroundColor: "transparent !important",
+      },
+      "& .pro-inner-item": {
+        padding: isRTL ? "5px 20px 5px 35px !important" : "5px 35px 5px 20px !important",
+        textAlign: isRTL ? "right" : "left",
+      },
+      "& .pro-inner-item:hover": {
+        color: "#868dfb !important",
+      },
+      "& .pro-menu-item.active": {
+        color: "#6870fa !important",
+      },
+    }}
     >
       <ProSidebar collapsed={isCollapsed} rtl={isRTL}>
         <Menu iconShape="square">

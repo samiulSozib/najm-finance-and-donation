@@ -40,11 +40,20 @@ const Topbar = () => {
   };
 
   return (
-    <Box display="flex" justifyContent="space-between" p={2}>
+    <Box display="flex" justifyContent="space-between" p={2} sx={{
+     
+      position: 'fixed', // Make the Topbar fixed
+      top: 0, // Position it at the top
+      left: 0, // Align to the left
+      right: 0, // Align to the right
+      backgroundColor: theme.palette.background.default, // Ensure it has a background
+      zIndex: 1100, // Ensure it's above other elements
+    }}>
       <Box display="flex">
       <IconButton onClick={handleSidebarToggle} >
           <MenuIcon />
         </IconButton>
+        
       </Box>
       <Box display="flex" alignItems="center">
         <IconButton onClick={colorMode.toggleColorMode}>

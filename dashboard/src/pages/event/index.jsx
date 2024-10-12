@@ -142,7 +142,7 @@ const Event = () => {
 
   return (
   
-     <Box m="20px" dir={isRtl ? 'rtl' : 'ltr'}>
+     <Box paddingBottom="20px" m="20px" dir={isRtl ? 'rtl' : 'ltr'}>
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title={t('EVENTS')} subtitle={t('EVENT_LIST')} />
         {permissions.includes('manage_events')&&(

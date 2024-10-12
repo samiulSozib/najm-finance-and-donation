@@ -177,7 +177,7 @@ const Members = () => {
   ];
 
   return (
-    <Box m="20px" dir={isRtl ? 'rtl' : 'ltr'}>
+    <Box paddingBottom="20px" m="20px" dir={isRtl ? 'rtl' : 'ltr'}>
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title={t('MEMBERS')} subtitle={t('MEMBER_LIST')} />
         {permissions.includes('manage_members') && (
@@ -228,28 +228,13 @@ const Members = () => {
       {/* Data Grid */}
       <Box
       m="40px 0 0 0"
-      height="70vh"
+      height="75vh"
       sx={{
-        width: '100%', // Ensure the box takes full width
-        overflowX: 'auto', // Allow horizontal scrolling
-        "& .MuiDataGrid-root": { 
-          border: "none", 
-          minWidth: '600px', // Ensure the DataGrid has a minimum width
-        },
-        "& .MuiDataGrid-columnHeaders": { 
-          backgroundColor: colors.blueAccent[700], 
-          borderBottom: "none", 
-          position: 'sticky', // Keep headers visible
-          top: 0, // Stick to the top of the scrolling container
-          zIndex: 1, // Ensure it's above other content
-        },
-        "& .MuiDataGrid-virtualScroller": { 
-          backgroundColor: colors.primary[400] 
-        },
-        "& .MuiDataGrid-footerContainer": { 
-          borderTop: "none", 
-          backgroundColor: colors.blueAccent[700] 
-        },
+        "& .MuiDataGrid-root": { border: "none" },
+        "& .MuiDataGrid-cell": { borderBottom: "none" },
+        "& .MuiDataGrid-columnHeaders": { backgroundColor: colors.blueAccent[700], borderBottom: "none" },
+        "& .MuiDataGrid-virtualScroller": { backgroundColor: colors.primary[400] },
+        "& .MuiDataGrid-footerContainer": { borderTop: "none", backgroundColor: colors.blueAccent[700] },
       }}
       >
         {loading ? (

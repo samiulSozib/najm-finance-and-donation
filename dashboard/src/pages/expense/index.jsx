@@ -21,6 +21,7 @@ const Expense = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const {t,i18n}=useTranslation()
+  const isMobileOrTablet = window.innerWidth <= 900;
 
   const user = JSON.parse(localStorage.getItem('user'));
   const adminId = user ? user.id : null;
@@ -86,11 +87,11 @@ const Expense = () => {
   const isRtl = i18n.language === 'ar' || i18n.language==='fa';
 
   const columns = [
-    { field: "id", headerName: t('ID'), flex: 0.5 },
+    { field: "id", headerName: t('ID'), flex: 0,width:80 },
     {
       field: "Event.name",
       headerName: t('EXPENSE_EVENT_NAME'),
-      flex: 1,
+      fwidth: 150, flex:isMobileOrTablet?0:1,
       renderCell: (params) => {
         return params.row.Event?.name || "N/A";
       }
@@ -98,17 +99,17 @@ const Expense = () => {
     {
       field: "reason",
       headerName: t('EXPENSE_REASON'),
-      flex: 1,
+      width: 150, flex:isMobileOrTablet?0:1,
     },
     {
       field: "amount",
       headerName: t('EXPENSE_AMOUNT'),
-      flex: 1,
+      width: 150, flex:isMobileOrTablet?0:1,
     },
     {
       field: "payment_date",
       headerName: t('EXPENSE_PAYMENT_DATE'),
-      flex: 1,
+      width: 150, flex:isMobileOrTablet?0:1,
       renderCell: (params) => {
         const date = new Date(params.value);
         return date.toLocaleDateString();
@@ -117,7 +118,7 @@ const Expense = () => {
     {
       field: "ExpenseCategory.name",
       headerName: t('EXPENSE_CATEGORY_NAME'),
-      flex: 1,
+      width: 150, flex:isMobileOrTablet?0:1,
       renderCell:(params)=>{
         return params.row.ExpenseCategory?.name||"N/A"
       }
@@ -194,7 +195,7 @@ const Expense = () => {
   };
 
   return (
-    <Box m="20px" dir={isRtl ? 'rtl' : 'ltr'}>
+    <Box paddingBottom="20px" m="20px" dir={isRtl ? 'rtl' : 'ltr'}>
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title={t('EXPENSES')} subtitle={t('EXPENSE_LIST')} />
         <Box>

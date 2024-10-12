@@ -19,6 +19,7 @@ import { useTranslation } from "react-i18next";
 import GroupType from "./pages/groupType";
 import GroupTypeDetails from "./pages/groupType/groupTypeDetails";
 import { SidebarProvider } from './context/SidebarContext'; // Import SidebarProvider
+import Footer from "./pages/global/Footer";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -33,7 +34,7 @@ function App() {
         <SidebarProvider>
           <div className="app" dir={['ar', 'fa'].includes(i18n.language) ? 'rtl' : 'ltr'}>
             {!isLoginPage && <Sidebar />}
-            <main className="content" style={{overflow:"auto"}}>
+            <main className="content" style={{overflow:"auto" ,paddingTop: '64px'}}>
               {!isLoginPage && <Topbar />}
               <Routes>
                 <Route path="/login" element={<Login />} />
@@ -49,6 +50,7 @@ function App() {
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>
+            <Footer />
           </div>
         </SidebarProvider>
       </ThemeProvider>
