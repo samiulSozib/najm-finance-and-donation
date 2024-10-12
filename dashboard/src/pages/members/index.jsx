@@ -25,6 +25,7 @@ const Members = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { t, i18n } = useTranslation();
+  const isMobileOrTablet = window.innerWidth <= 900;
   
   // State variables
   const [openDialog, setOpenDialog] = useState(false);
@@ -135,43 +136,42 @@ const Members = () => {
 
   const isRtl = i18n.language === 'ar'||i18n.language==='fa';
   const columns = [
-    { field: "id", headerName: t('ID'), flex: 0.5 },
-    { field: "name", headerName: t('MEMBER_NAME'), flex: 1 },
-    { field: "occupation", headerName: t('MEMBER_OCCUPATION'), flex: 1 },
-    { field: "monthly_contribution", headerName: t('MEMBER_MONTHLY_CONTRIBUTION'), flex: 1 },
-    { field: "address", headerName: t('MEMBER_ADDRESS'), flex: 1 },
-    { field: "joining_date", headerName: t('MEMBER_JOINING_DATE'), flex: 1,
+    { field: "id", headerName: t('ID'), width: 80,flex:0 }, // Set specific width
+    { field: "name", headerName: t('MEMBER_NAME'), width: 150, flex:isMobileOrTablet?0:1 }, // Increase width
+    { field: "occupation", headerName: t('MEMBER_OCCUPATION'), width: 150 ,flex:isMobileOrTablet?0:1}, // Increase width
+    { field: "monthly_contribution", headerName: t('MEMBER_MONTHLY_CONTRIBUTION'), width: 150,flex:isMobileOrTablet?0:1 }, // Increase width
+    { field: "address", headerName: t('MEMBER_ADDRESS'), width: 200,flex:isMobileOrTablet?0:1 }, // Increase width
+    { field: "joining_date", headerName: t('MEMBER_JOINING_DATE'), width: 150, flex:isMobileOrTablet?0:1,
       renderCell: (params) => {
-      const date = new Date(params.value);
-      return date.toLocaleDateString();
-    }, },
+        const date = new Date(params.value);
+        return date.toLocaleDateString();
+      },
+    },
     {
-      field: "Group.name", headerName: t('MEMBER_GROUP_NAME'), flex: 1,
+      field: "Group.name", headerName: t('MEMBER_GROUP_NAME'), width: 120,flex:isMobileOrTablet?0:1,
       renderCell: (params) => params.row.Group?.name || "N/A"
     },
     {
       field: "actions",
       headerName: t('ACTIONS'),
-      flex: 1,
+      width: 150, // Increase width for actions column
+      flex:isMobileOrTablet?0:1,
       renderCell: (params) => (
         <Box display="flex" justifyContent="start" gap={1}>
-       
-        {permissions.includes('manage_members') && (
-          <IconButton color="success" onClick={() => handleEdit(params.row.id)}>
-            <EditIcon />
-          </IconButton>
-
+          {permissions.includes('manage_members') && (
+            <IconButton color="success" onClick={() => handleEdit(params.row.id)}>
+              <EditIcon />
+            </IconButton>
           )}
           {permissions.includes('manage_members') && (
-          <IconButton style={{ color: 'red' }} onClick={() => handleDelete(params.row.id)}>
-            <DeleteIcon />
+            <IconButton style={{ color: 'red' }} onClick={() => handleDelete(params.row.id)}>
+              <DeleteIcon />
+            </IconButton>
+          )}
+          <IconButton color="default" onClick={() => handleDetails(params.row.id)}>
+            <VisibilityIcon />
           </IconButton>
-        )}
-       
-        <IconButton color="default" onClick={() => handleDetails(params.row.id)}>
-          <VisibilityIcon />
-        </IconButton>
-      </Box>
+        </Box>
       ),
     }
   ];
@@ -227,49 +227,66 @@ const Members = () => {
 
       {/* Data Grid */}
       <Box
-        m="40px 0 0 0"
-        height="75vh"
-        sx={{
-          "& .MuiDataGrid-root": { border: "none" },
-          "& .MuiDataGrid-cell": { borderBottom: "none" },
-          "& .MuiDataGrid-columnHeaders": { backgroundColor: colors.blueAccent[700], borderBottom: "none" },
-          "& .MuiDataGrid-virtualScroller": { backgroundColor: colors.primary[400] },
-          "& .MuiDataGrid-footerContainer": { borderTop: "none", backgroundColor: colors.blueAccent[700] },
-        }}
+      m="40px 0 0 0"
+      height="70vh"
+      sx={{
+        width: '100%', // Ensure the box takes full width
+        overflowX: 'auto', // Allow horizontal scrolling
+        "& .MuiDataGrid-root": { 
+          border: "none", 
+          minWidth: '600px', // Ensure the DataGrid has a minimum width
+        },
+        "& .MuiDataGrid-columnHeaders": { 
+          backgroundColor: colors.blueAccent[700], 
+          borderBottom: "none", 
+          position: 'sticky', // Keep headers visible
+          top: 0, // Stick to the top of the scrolling container
+          zIndex: 1, // Ensure it's above other content
+        },
+        "& .MuiDataGrid-virtualScroller": { 
+          backgroundColor: colors.primary[400] 
+        },
+        "& .MuiDataGrid-footerContainer": { 
+          borderTop: "none", 
+          backgroundColor: colors.blueAccent[700] 
+        },
+      }}
       >
         {loading ? (
           <Box display="flex" justifyContent="center" alignItems="center" height="100%">
             <CircularProgress size={60} />
             <Typography variant="h6" ml={2}>
-              Loading roles...
+              Loading ...
             </Typography>
           </Box>
         ) : (
-        <DataGrid
-          rows={members}
-          columns={columns}
-          getRowId={(row) => row.id}
-          pagination
-          paginationMode="server"
-          rowCount={totalItems}
-          paginationModel={{ page, pageSize }}
-          onPaginationModelChange={(model) => {
-            setPage(model.page);
-            setPageSize(model.pageSize);
-          }}
-          pageSizeOptions={[10, 20, 50]}
-          components={{ Toolbar: GridToolbar }}
-          sx={{
-            "& .MuiDataGrid-columnHeaders": {
-              textAlign: isRtl ? 'right' : 'left', // Ensure header text alignment is right or left
-            },
-            "& .MuiDataGrid-cell": {
-              textAlign: isRtl ? 'right' : 'left', // Ensure cell content is also right or left aligned
-            },
-          }}
-        />
+          <DataGrid
+            rows={members}
+            columns={columns}
+            getRowId={(row) => row.id}
+            pagination
+            paginationMode="server"
+            rowCount={totalItems}
+            paginationModel={{ page, pageSize }}
+            onPaginationModelChange={(model) => {
+              setPage(model.page);
+              setPageSize(model.pageSize);
+            }}
+            pageSizeOptions={[10, 20, 50]}
+            components={{ Toolbar: GridToolbar }}
+            sx={{
+              "& .MuiDataGrid-columnHeaders": {
+                textAlign: isRtl ? 'right' : 'left', // Ensure header text alignment is right or left
+              },
+              "& .MuiDataGrid-cell": {
+                textAlign: isRtl ? 'right' : 'left', // Ensure cell content is also right or left aligned
+              },
+            }}
+          />
         )}
       </Box>
+
+
 
       {/* Member Form Dialog */}
       <Dialog open={openDialog} onClose={handleDialogClose}>
