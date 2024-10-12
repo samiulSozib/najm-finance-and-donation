@@ -54,7 +54,7 @@ const Sidebar = () => {
         visibility: isMobile ? (isCollapsed ? 'hidden' : 'visible') : 'visible',
         opacity: isMobile ? (isCollapsed ? 0 : 1) : 1,
         transition: 'visibility 0s, opacity 0.5s linear',
-        width: isCollapsed ? '0': '300px', // Adjust the width based on collapsed state
+        width: isCollapsed ? '0': '380px', // Adjust the width based on collapsed state
         overflow: 'hidden', // Prevents content from spilling over
         "& .pro-sidebar-inner": {
           background: `${colors.primary[400]} !important`,
